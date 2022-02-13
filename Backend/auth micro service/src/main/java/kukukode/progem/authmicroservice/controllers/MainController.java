@@ -48,7 +48,7 @@ public class MainController {
             //If this section doesn't throw exception we know that the authentication has been successful
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(reqSignUP.getEmail(), reqSignUP.getPassword()));
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(405).body(new RespSignUP("Invalid credentials"));
+            return ResponseEntity.status(403).body(new RespSignUP("Invalid credentials"));
         }
         String token = jwtUtil.generateToken(reqSignUP.getEmail());
         return ResponseEntity.ok(new RespSignUP(token));
