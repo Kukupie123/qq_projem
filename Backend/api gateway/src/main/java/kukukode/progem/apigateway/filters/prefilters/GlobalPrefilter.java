@@ -3,8 +3,10 @@ package kukukode.progem.apigateway.filters.prefilters;
 import kukukode.progem.apigateway.service.JWTUtil;
 import kukukode.progem.apigateway.util.RouteURIs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyRequestBodyGatewayFilterFactory;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
@@ -49,7 +51,7 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
         //Check if we have authHeader
         if (exchange.getRequest().getHeaders().containsKey(authheader)) {
             //Check if trying to access auth service or other service
-            if (route.getUri().toString() == RouteURIs.AUTH) {
+            if (route.getUri().toString().equals(RouteURIs.AUTH)) {
                 //Trying to access Auth MC, should not be allowed to access with authHeader so
                 //Return with UNAUTHORIZED statusCode
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
@@ -86,4 +88,6 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
     public int getOrder() {
         return 0;
     }
+
+
 }
