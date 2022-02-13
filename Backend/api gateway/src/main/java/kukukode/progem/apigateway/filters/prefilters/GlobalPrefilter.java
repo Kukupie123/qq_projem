@@ -75,7 +75,7 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
 
         } else { //No AuthHeader supplied in request
 
-            if (route.getUri().toString() != RouteURIs.AUTH) {
+            if (route.getUri().toString().equals(RouteURIs.AUTH)) {
                 //Trying to access resources without authHeader, so we need to add GUEST as AuthHeader for guest level access
             }
         }
