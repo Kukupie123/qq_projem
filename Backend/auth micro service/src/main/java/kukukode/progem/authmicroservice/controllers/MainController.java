@@ -50,6 +50,7 @@ public class MainController {
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(403).body(new RespSignUP("Invalid credentials"));
         }
+
         String token = jwtUtil.generateToken(reqSignUP.getEmail());
         return ResponseEntity.ok(new RespSignUP(token));
     }

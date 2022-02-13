@@ -1,9 +1,9 @@
-package kukukode.progem.authmicroservice.services;
+package kukukode.progem.apigateway.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -16,8 +16,16 @@ public class JWTUtil {
     final private String key = "naijerLand69";
 
 
-    public String extractUserName(String token) {
-        return extractClaims(token, Claims::getSubject);
+    /***
+     *
+     * @param token JWT token
+     * @param userIDAttributeName name of the Attribute that holds the value to userID
+     * @return returns the userID
+     */
+    public String extractUserName(String token, String userIDAttributeName) {
+        var a = Jwts.parser().setSigningKey(key).parse(token);
+        var b = (Map<String, String>) (a.getBody());
+        return (b.get(userIDAttributeName));
     }
 
     private Date extractExpiration(String token) {
@@ -39,20 +47,28 @@ public class JWTUtil {
 
     public String generateToken(String email) {
         Map<String, Object> map = new HashMap<>();
-        map.put("NIGGA","LAND Bay");
-        map.put("id", email);
+        map.put("email", email);
         return Jwts.builder()
-                .setSubject(email)
                 .setClaims(map)
+                .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(SignatureAlgorithm.HS512, key)
-                .setExpiration(new Date(System.currentTimeMillis() * 12000))
+                .setExpiration(new Date(System.currentTimeMillis() * 600))
                 .compact();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) {
-        final String userName = extractUserName(token);
-        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    /***
+     *
+     * @param token JWT token
+     * @param userID The Expected UserID
+     * @param userIDAttribute Attribute name that stores the UserID of the JWT token
+     * @return true if valid, false if invalid
+     */
+    public boolean validateToken(String token, String userID, String userIDAttribute) {
+        Jwt jwt = Jwts.parser().setSigningKey(key).parse(token);
+        Map<String, Object> claims = (Map<String, Object>) jwt.getBody();
+        String userIDFromJWT = (String) claims.get(userIDAttribute);
+        return (userIDFromJWT.equals(userID) && !isTokenExpired(token));
     }
 
 }
