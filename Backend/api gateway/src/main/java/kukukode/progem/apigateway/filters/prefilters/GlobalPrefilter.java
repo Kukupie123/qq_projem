@@ -32,7 +32,6 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
      */
     final
     JWTUtil jwtUtil;
-    private final String authheader = "authorization";
 
     @Autowired
     public GlobalPrefilter(JWTUtil jwtUtil) {
@@ -42,21 +41,23 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        final String authheader = "authorization";
+
         //Store the route information
         Route route = (Route) exchange.getAttributes().get("org.springframework.cloud.gateway.support.ServerWebExchangeUtils.gatewayRoute");
 
+        //Check if we have authHeader
         if (exchange.getRequest().getHeaders().containsKey(authheader)) {
-            //Header exists
-
             //Check if trying to access auth service or other service
             if (route.getUri().toString() == RouteURIs.AUTH) {
-                //Set unauthorized when trying to access auth with a token
+                //Trying to access Auth MC, should not be allowed to access with authHeader so
+                //Return with UNAUTHORIZED statusCode
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
 
+            //ELSE
             //Trying to access resources with an authHeader
-
             //Parse userID out of the token if possible
             String token = exchange.getRequest().getHeaders().get(authheader).get(0).replace("Bearer ", "");
             String userIDAttribute = "id";
@@ -65,17 +66,19 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
                 //Valid token so allow
                 System.out.println("Allowed to Continue request");
 
-                //Manipulate the request and add userID value
+                //Modify request and forward it to next filter
+
+                return chain.filter(exchange);
             }
 
-        } else {
+        } else { //No AuthHeader supplied in request
 
-            //Check if trying to access auth service or other service
             if (route.getUri().toString() != RouteURIs.AUTH) {
                 //Trying to access resources without authHeader, so we need to add GUEST as AuthHeader for guest level access
             }
         }
 
+        //Reached here means client is trying to access Auth MC without a header, which is allowed
         return chain.filter(exchange);
     }
 
