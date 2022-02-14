@@ -39,12 +39,10 @@ public class MainController {
             return ResponseEntity.ok(new RespSignUP("Success"));
         else
             return ResponseEntity.status(403).body(new RespSignUP("Failed to signup"));
-
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public ResponseEntity<RespSignIN> signIN(@RequestBody ReqSignUP reqSignUP) {
-
         try {
             //If this section doesn't throw exception we know that the authentication has been successful
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(reqSignUP.getEmail(), reqSignUP.getPassword()));

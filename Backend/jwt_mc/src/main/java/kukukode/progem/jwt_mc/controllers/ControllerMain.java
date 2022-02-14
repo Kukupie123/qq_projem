@@ -1,17 +1,15 @@
 package kukukode.progem.jwt_mc.controllers;
 
 
-import kukukode.progem.jwt_mc.Model.ReqExtractUID;
-import kukukode.progem.jwt_mc.Model.ReqGenerate;
 import kukukode.progem.jwt_mc.Model.RespExtractUID;
 import kukukode.progem.jwt_mc.Model.RespGenerate;
 import kukukode.progem.jwt_mc.services.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/jwt")
@@ -26,19 +24,19 @@ public class ControllerMain {
         this.jwtUtil = jwtUtil;
     }
 
-    @RequestMapping(value = "/generate", method = RequestMethod.POST)
-    public ResponseEntity<RespGenerate> generateToken(@RequestBody ReqGenerate reqGenerate) {
-        if (reqGenerate.getUserID() == null || reqGenerate.getUserID().isEmpty() || reqGenerate.getUserID().isBlank())
+    @RequestMapping(value = "/generate", method = RequestMethod.GET)
+    public ResponseEntity<RespGenerate> generateToken(@RequestParam(name = "userID") String userID) {
+        if (userID == null || userID.isEmpty() || userID.isBlank())
             return ResponseEntity.internalServerError().body(new RespGenerate("No userID provided"));
-        String token = jwtUtil.generateToken(reqGenerate.getUserID());
+        String token = jwtUtil.generateToken(userID);
         return ResponseEntity.ok(new RespGenerate(token));
     }
 
-    @RequestMapping(value = "/getuid", method = RequestMethod.POST)
-    public ResponseEntity<RespExtractUID> extractUserIDFromJWT(@RequestBody ReqExtractUID reqExtractUID) {
+    @RequestMapping(value = "/getuid", method = RequestMethod.GET)
+    public ResponseEntity<RespExtractUID> extractUserIDFromJWT(@RequestParam(name = "token") String token) {
         String userID = null;
         try {
-            userID = jwtUtil.extractUserName(reqExtractUID.getToken());
+            userID = jwtUtil.extractUserName(token);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(new RespExtractUID(e.getMessage() + " "));

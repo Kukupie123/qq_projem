@@ -6,16 +6,13 @@ import kukukode.progem.authmicroservice.util.OtherMCURLs;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class JWTMC {
     public String generateToken(String userID) {
-        Map<String, String> request = new HashMap<>();
-        request.put("userID", userID);
-        //URL, REQUEST, Response type
-        GenerateResponse resp = new RestTemplate().postForObject(OtherMCURLs.JWT() + OtherMCURLs.JWT_GENERATE(), request, GenerateResponse.class);
+        String url = OtherMCURLs.JWT() + OtherMCURLs.JWT_GENERATE() + OtherMCURLs.START_QUERYPARAM() + OtherMCURLs.JWT_PARAM_USERID();
+        //localhost:1234/jwt/?userID={userID}
+        GenerateResponse resp = new RestTemplate().getForObject(url, GenerateResponse.class, userID);
         return resp.getToken();
     }
 }
+

@@ -1,15 +1,10 @@
 package kukukode.progem.authmicroservice.services;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import kukukode.progem.authmicroservice.jpaEntity.User;
 import kukukode.progem.authmicroservice.jpaRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -18,12 +13,10 @@ public class UserServiceImp implements UserService {
 
     final
     UserRepository repo;
-    final JWTUtil jwtUtil;
 
     @Autowired
-    public UserServiceImp(UserRepository repo, JWTUtil jwtUtil) {
+    public UserServiceImp(UserRepository repo) {
         this.repo = repo;
-        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -42,8 +35,6 @@ public class UserServiceImp implements UserService {
     public Optional<User> getUser(String email) {
         return repo.findById(email);
     }
-
-
 
 
 }

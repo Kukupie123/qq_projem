@@ -9,10 +9,19 @@ public final class OtherMCURLs {
     }
 
     public static String JWT_GENERATE() {
-        return "/generate";
-    }
 
+        return "/generate/";
+    }
     public static final String JWT_GETUSERID() {
         return "/getuid";
     }
+    public static final String START_QUERYPARAM() {
+        return "?";
+    }
+
+    public static String JWT_PARAM_USERID() {
+        return "userID={userID}";
+    }
+
+
 }
