@@ -1,19 +1,30 @@
 package kukukode.progem.authmicroservice.controllers;
 
 
+import kukukode.progem.authmicroservice.reqresp.jwt.GenerateResponse;
 import kukukode.progem.authmicroservice.reqresp.signup.ReqSignUP;
 import kukukode.progem.authmicroservice.reqresp.signup.RespSignUP;
 import kukukode.progem.authmicroservice.services.JWTUtil;
 import kukukode.progem.authmicroservice.services.UserServiceImp;
+import kukukode.progem.authmicroservice.util.OtherMCURLs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.web.header.Header;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/auth")
@@ -51,6 +62,13 @@ public class MainController {
             return ResponseEntity.status(403).body(new RespSignUP("Invalid credentials"));
         }
 
+
+        //Calling another MC
+        Map<String, String> request = new HashMap<>();
+        request.put("userID", reqSignUP.getEmail());
+        //URL, REQUEST, Response type
+        GenerateResponse resp = new RestTemplate().postForObject(OtherMCURLs.JWT() + OtherMCURLs.JWT_GENERATE(), request, GenerateResponse.class);
+        System.out.println(resp.getToken());
         String token = jwtUtil.generateToken(reqSignUP.getEmail());
         return ResponseEntity.ok(new RespSignUP(token));
     }

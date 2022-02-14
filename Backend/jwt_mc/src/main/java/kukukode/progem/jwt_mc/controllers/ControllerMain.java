@@ -26,7 +26,7 @@ public class ControllerMain {
         this.jwtUtil = jwtUtil;
     }
 
-    @RequestMapping(value = "/generate", method = RequestMethod.GET)
+    @RequestMapping(value = "/generate", method = RequestMethod.POST)
     public ResponseEntity<RespGenerate> generateToken(@RequestBody ReqGenerate reqGenerate) {
         if (reqGenerate.getUserID() == null || reqGenerate.getUserID().isEmpty() || reqGenerate.getUserID().isBlank())
             return ResponseEntity.internalServerError().body(new RespGenerate("No userID provided"));
@@ -34,7 +34,7 @@ public class ControllerMain {
         return ResponseEntity.ok(new RespGenerate(token));
     }
 
-    @RequestMapping(value = "/getuid", method = RequestMethod.GET)
+    @RequestMapping(value = "/getuid", method = RequestMethod.POST)
     public ResponseEntity<RespExtractUID> extractUserIDFromJWT(@RequestBody ReqExtractUID reqExtractUID) {
         String userID = null;
         try {
