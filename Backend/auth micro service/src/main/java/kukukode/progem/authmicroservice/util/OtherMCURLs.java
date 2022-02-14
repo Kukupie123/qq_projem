@@ -12,10 +12,10 @@ public final class OtherMCURLs {
 
         return "/generate/";
     }
-    public static final String JWT_GETUSERID() {
+    public static String JWT_GETUSERID() {
         return "/getuid";
     }
-    public static final String START_QUERYPARAM() {
+    public static String START_QUERYPARAM() {
         return "?";
     }
 

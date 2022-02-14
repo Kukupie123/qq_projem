@@ -34,7 +34,7 @@ public class ControllerMain {
 
     @RequestMapping(value = "/getuid", method = RequestMethod.GET)
     public ResponseEntity<RespExtractUID> extractUserIDFromJWT(@RequestParam(name = "token") String token) {
-        String userID = null;
+        String userID;
         try {
             userID = jwtUtil.extractUserName(token);
         } catch (Exception e) {

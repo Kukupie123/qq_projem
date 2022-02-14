@@ -12,7 +12,6 @@ import reactor.core.publisher.Mono;
 public class GlobalPostfilter  implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        System.out.println("Global post filter");
         return chain.filter(exchange);
     }
 

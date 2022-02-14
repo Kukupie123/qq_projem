@@ -64,7 +64,6 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
             String user = jwtmcService.getUserID(token);
             //Modify request and forward it to next filter
             exchange.getRequest().mutate().header(authheader, user);
-            System.out.println(exchange.getRequest().getHeaders().get(authheader));
             return chain.filter(exchange);
 
 
@@ -76,10 +75,8 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
 
                 //so we need to add GUEST as AuthHeader for guest level access
                 exchange.getRequest().mutate().header(authheader, "GUEST");
-                System.out.println(exchange.getRequest().getHeaders().get(authheader));
                 return chain.filter(exchange);
             }
-            System.out.println("Accessing Auth without authHeader and shall return a token");
 
         }
 
