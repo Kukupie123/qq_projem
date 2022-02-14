@@ -1,6 +1,6 @@
 package kukukode.progem.apigateway.filters.prefilters;
 
-import kukukode.progem.apigateway.service.JWTUtil;
+import kukukode.progem.apigateway.service.microservice.JWTMCService;
 import kukukode.progem.apigateway.util.RouteURIs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -30,13 +30,13 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
     1. Accessing Auth with authHeader - Return "Already contains authHeader"
     2. AccessingAuth without authHeader - forward it to auth MC
      */
-    private final JWTUtil jwtUtil;
+    private final JWTMCService jwtmcService;
     private final String authheader = "Authorization";
     public static final String routeAttribute = "org.springframework.cloud.gateway.support.ServerWebExchangeUtils.gatewayRoute";
 
     @Autowired
-    public GlobalPrefilter(JWTUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
+    public GlobalPrefilter(JWTMCService jwtmcService) {
+        this.jwtmcService = jwtmcService;
     }
 
 
@@ -61,21 +61,17 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
 
             //Parse userID out of the token if possible
             String token = exchange.getRequest().getHeaders().get(authheader).get(0).replace("Bearer ", "");
-            String userIDAttribute = "id";
-            String user = jwtUtil.extractUserName(token, userIDAttribute);
-            if (jwtUtil.validateToken(token, user, userIDAttribute)) { //little unnecessary left over code
-                //**Valid token so allow**
+            String user = jwtmcService.getUserID(token);
+            //Modify request and forward it to next filter
+            exchange.getRequest().mutate().header(authheader, user);
+            System.out.println(exchange.getRequest().getHeaders().get(authheader));
+            return chain.filter(exchange);
 
-                //Modify request and forward it to next filter
-                exchange.getRequest().mutate().header(authheader, user);
-                System.out.println(exchange.getRequest().getHeaders().get(authheader));
-                return chain.filter(exchange);
-            }
 
         } else {
             //**No AuthHeader supplied in request**
 
-            if (route.getUri().toString().equals(RouteURIs.AUTH)) {
+            if (!route.getUri().toString().equals(RouteURIs.AUTH)) {
                 //**Trying to access resources without authHeader**
 
                 //so we need to add GUEST as AuthHeader for guest level access
@@ -83,6 +79,8 @@ public class GlobalPrefilter implements GlobalFilter, Ordered {
                 System.out.println(exchange.getRequest().getHeaders().get(authheader));
                 return chain.filter(exchange);
             }
+            System.out.println("Accessing Auth without authHeader and shall return a token");
+
         }
 
         //Reached here means client is trying to access Auth MC without a header, which is allowed
