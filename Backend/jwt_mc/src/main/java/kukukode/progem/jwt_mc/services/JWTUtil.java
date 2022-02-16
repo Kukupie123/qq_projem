@@ -12,14 +12,18 @@ import java.util.Map;
 @Service
 public class JWTUtil {
     final private String key = "naijerLand69";
+    //Attribute names
+    final private String expiration = "exp";
+    final private String initiatedAt = "iat";
+    final private String subject = "sub";
 
     public String extractUserName(String token) {
         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-        var exp = claims.get("exp");
-        var iat = claims.get("iat");
+        var exp = claims.get(expiration);
+        var iat = claims.get(initiatedAt);
         long iatDate = ((Number) iat).longValue();
 
-        return (String) claims.get("sub");
+        return (String) claims.get(subject);
     }
 
     public String generateToken(String email) {
@@ -34,8 +38,8 @@ public class JWTUtil {
 
     private void validateExpiry(Map<String, Object> body) throws Exception {
         //Validate expiry date
-        long dateIssuedMS = ((Number) body.get("iat")).longValue();
-        long expiryDateMS = ((Number) body.get("exp")).longValue();
+        long dateIssuedMS = ((Number) body.get(initiatedAt)).longValue();
+        long expiryDateMS = ((Number) body.get(expiration)).longValue();
 
         Calendar issuedDate = Calendar.getInstance();
         issuedDate.setTimeInMillis(dateIssuedMS);

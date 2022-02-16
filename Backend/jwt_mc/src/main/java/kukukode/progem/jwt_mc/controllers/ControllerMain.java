@@ -19,13 +19,18 @@ public class ControllerMain {
     final
     JWTUtil jwtUtil;
 
+
     @Autowired
     public ControllerMain(JWTUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
+    //Attribute names
+    private final String userIDParam = "userID";
+    private final String tokenParam = "token";
+
     @RequestMapping(value = "/generate", method = RequestMethod.GET)
-    public ResponseEntity<RespGenerate> generateToken(@RequestParam(name = "userID") String userID) {
+    public ResponseEntity<RespGenerate> generateToken(@RequestParam(name = this.userIDParam) String userID) {
         if (userID == null || userID.isEmpty() || userID.isBlank())
             return ResponseEntity.internalServerError().body(new RespGenerate("No userID provided"));
         String token = jwtUtil.generateToken(userID);
@@ -33,7 +38,7 @@ public class ControllerMain {
     }
 
     @RequestMapping(value = "/getuid", method = RequestMethod.GET)
-    public ResponseEntity<RespExtractUID> extractUserIDFromJWT(@RequestParam(name = "token") String token) {
+    public ResponseEntity<RespExtractUID> extractUserIDFromJWT(@RequestParam(name = this.tokenParam) String token) {
         String userID;
         try {
             userID = jwtUtil.extractUserName(token);
