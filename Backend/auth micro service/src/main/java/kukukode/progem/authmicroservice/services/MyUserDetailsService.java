@@ -22,15 +22,15 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println("LOAD USER BY NAME");
         Optional<User> user = userServiceImp.getUser(email);
         if (user.isPresent()) {
             MyUserDetails userDetails = new MyUserDetails();
             userDetails.setEmail(user.get().email);
             userDetails.setPassword(user.get().hashedPassword);
+            System.out.println("User found with email " + user.get().email + " : Pass: " + user.get().hashedPassword);
             return userDetails;
         } else {
-            throw new UsernameNotFoundException("User has not signed up");
+            throw new UsernameNotFoundException("User not found in record");
         }
     }
 }

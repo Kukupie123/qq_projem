@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 public class JWTMC {
     public String generateToken(String userID) {
         String url = OtherMCURLs.JWT() + OtherMCURLs.JWT_GENERATE() + OtherMCURLs.START_QUERYPARAM() + OtherMCURLs.JWT_PARAM_USERID();
-        //localhost:1234/jwt/?userID={userID}
+        //localhost:3000/jwt/?userID={userID}
         JwtMCResp resp = new RestTemplate().getForObject(url, JwtMCResp.class, userID);
         return resp.getToken();
     }

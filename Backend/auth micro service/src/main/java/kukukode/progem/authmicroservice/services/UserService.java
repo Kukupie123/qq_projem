@@ -1,15 +1,18 @@
 package kukukode.progem.authmicroservice.services;
 
 import kukukode.progem.authmicroservice.jpaEntity.User;
+import kukukode.progem.authmicroservice.reqresp.signin.RespSignIN;
+import kukukode.progem.authmicroservice.reqresp.signup.RespSignUP;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
 public interface UserService {
 
-    boolean signUP(String email, String password);
+    ResponseEntity<RespSignUP> signUP(String email, String password);
 
 
-    String signIN(String email, String password);
+    ResponseEntity<RespSignIN> signIN(String email, String password);
 
 
     Optional<User> getUser(String email);
