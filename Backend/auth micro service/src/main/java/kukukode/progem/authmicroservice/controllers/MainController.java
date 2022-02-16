@@ -5,7 +5,9 @@ import kukukode.progem.authmicroservice.reqresp.signin.RespSignIN;
 import kukukode.progem.authmicroservice.reqresp.signup.ReqSignUP;
 import kukukode.progem.authmicroservice.reqresp.signup.RespSignUP;
 import kukukode.progem.authmicroservice.services.UserServiceImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MainController {
 
     final UserServiceImp userServiceImp;
+    final AuthenticationManager authenticationManager;
 
-    public MainController(UserServiceImp userServiceImp) {
+    @Autowired
+    public MainController(UserServiceImp userServiceImp, AuthenticationManager authenticationManager) {
         this.userServiceImp = userServiceImp;
+        this.authenticationManager = authenticationManager;
     }
 
 
@@ -30,6 +35,6 @@ public class MainController {
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public ResponseEntity<RespSignIN> signIN(@RequestBody ReqSignUP reqSignUP) {
-        return userServiceImp.signIN(reqSignUP.getEmail(), reqSignUP.getPassword());
+        return userServiceImp.signIN(reqSignUP.getEmail(), reqSignUP.getPassword(), authenticationManager);
     }
 }

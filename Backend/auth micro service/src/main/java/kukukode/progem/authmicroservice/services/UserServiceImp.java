@@ -20,13 +20,11 @@ public class UserServiceImp implements UserService {
 
     final
     UserRepository repo;
-    final AuthenticationManager authenticationManager;
     final JWTMC jwtmcService;
 
     @Autowired
-    public UserServiceImp(UserRepository repo, AuthenticationManager authenticationManager, JWTMC jwtmcService) {
+    public UserServiceImp(UserRepository repo, JWTMC jwtmcService) {
         this.repo = repo;
-        this.authenticationManager = authenticationManager;
         this.jwtmcService = jwtmcService;
     }
 
@@ -42,7 +40,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public ResponseEntity<RespSignIN> signIN(String email, String password) {
+    public ResponseEntity<RespSignIN> signIN(String email, String password, AuthenticationManager authenticationManager) {
         try {
             //If this section doesn't throw exception we know that the authentication has been successful
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
