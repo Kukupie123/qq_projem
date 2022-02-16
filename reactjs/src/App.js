@@ -1,14 +1,16 @@
-import './App.css';
-
-
-//Components
-import Login from "./Pages/LoginPage/Login";
+import Login from "./Pages/Login/Login";
+import {BrowserRouter as Router, Route, Link} from "react-router-dom"
+import {Routes} from "react-router"
 
 function App() {
     return (
-        <div className="App">
-            <Login/>
-        </div>
+        <Router>
+            {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+            <Routes>
+                <Route path = "/login" component = {<Login/>}/>
+            </Routes>
+        </Router>
     );
 }
 
