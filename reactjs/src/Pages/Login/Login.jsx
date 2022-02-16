@@ -1,58 +1,93 @@
 import "./login.css"
 
-import styled from 'styled-components';
 import Input from "../components/input";
 import {Button} from "react-bootstrap";
 //css
 import "bootstrap/dist/css/bootstrap.css"
+import {makeStyles} from "@material-ui/core";
 
-export default () => <MainContainer>
-    <WelcomeText>PROGEM</WelcomeText>
-    <InputContainer>
-        <Input type = "email" placeholder = "EMAIL"/>
-        <Input type = "password" placeholder = "PASSWORD"/>
-        <ButtonContainer>
-            <Button className="active shadow" variant = "primary" about = "Log in as a user" type = "submit" active = {false}
-            >Sign in</Button>
-        </ButtonContainer>
-    </InputContainer>
-</MainContainer>
+const styles = makeStyles(() => ({
+    root: {
+        height: "100vh",
+        minHeight: "100vh",
+        width: "100vw",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center"
+    },
+    button: {
+        color: "white",
 
-const MainContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: 80vh;
-  width: 30vw;
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0px 8px 32px rgba(50, 67, 151, 0.32);
-  backdrop-filter: blur(8.5px);
-  border-radius: 10px;
-`;
+    }
+}));
+
+const signInStyles = makeStyles(() => ({
+    blurRoot: {
+        height: "60%",
+        display: "flex",
+        alignItems: "end",
+        justifyContent: "end",
+        flexDirection: "column",
+        background: "rgba(152, 122, 229, 0.15)",
+        boxShadow: "0px 8px 32px rgba(25, 30, 76, 0.86)",
+        backdropFilter: "blur(3.5px)",
+        borderRadius: "10px"
+    },
+    inputContainer: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent:"center",
+        alignItems: "center",
+        height: "100%",
+        width: "100%",
+    }
+}))
+
+const Login = () => {
+    const styles = signInStyles();
+    return (
+        <div className = {styles.blurRoot}>
+            <div className = {styles.inputContainer}>
+                <Input type = "email" placeholder = "EMAIL"/>
+                <Input type = "password" placeholder = "PASSWORD"/>
+
+                <div>
+                    <Button>Login</Button>
+                </div>
+            </div>
+
+        </div>
+    );
+}
+
+const Signup = () => {
+    const styles = signInStyles();
+    return (
+        <div className = {styles.blurRoot}>
+            <div className = {styles.inputContainer}>
+                <Input type = "email" placeholder = "EMAIL"/>
+                <Input type = "password" placeholder = "PASSWORD"/>
+
+                <div>
+                    <Button>Signup</Button>
+                </div>
+            </div>
 
 
-const ButtonContainer = styled.div`
-  width: 100%;
+        </div>
+    );
+}
 
-  height: 20%;
-  margin: 1rem 0 20%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: end;
-`;
 
-const WelcomeText = styled.h2`
-  margin: 3rem 0 2rem 0;
-`;
+export default function GG() {
+    const classes = styles();
 
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-contents: space-around;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-`;
-
+    return (
+        <div className = {classes.root} id = "login-signup">
+            <Login/>
+            <Signup/>
+        </div>
+    )
+}
 

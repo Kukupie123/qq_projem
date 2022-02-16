@@ -1,25 +1,23 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {CssBaseline} from "@material-ui/core";
 import Header from "../components/header";
 
 //Icon
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Login from "../Login/Login";
+import {CssBaseline} from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
-        minHeight: "100vh",
         backgroundImage: "bg.jpg",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignContent: "center"
+        height: "100vh",
+        minHeight: "100vh"
 
     },
     desc: {
-        paddingTop: "5rem",
         textAlign: "center"
     },
 
@@ -27,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: "1",
         fontFamily: "Bebas Neue",
         fontSize: "5rem",
-        color: "#27c433",
+        color: "#ee6a6a",
         border: "black",
         outline: "white",
         fontWeight: "bold",
@@ -36,22 +34,22 @@ const useStyles = makeStyles((theme) => ({
     text2: {
         flexGrow: "1",
         fontFamily: "Bebas Neue",
-        fontSize:"3rem",
-        color: "#27232f",
+        fontSize: "3rem",
+        color: "#ffffff",
         border: "black",
         outline: "white"
     },
     text3: {
         flexGrow: "1",
-        fontSize:"3rem",
+        fontSize: "3rem",
         fontFamily: "Bebas Neue",
-        color: "#c9a2ec",
+        color: "#ffffff",
         border: "black",
         outline: "white"
     },
 
-    expand:{
-        fontSize:"5rem",
+    expand: {
+        fontSize: "5rem",
         color: "#27c433",
 
     }
@@ -59,28 +57,16 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
-function Desc() {
-    const classes = useStyles();
-    return <div className = {classes.desc}>
-        <h1 className = {classes.text2}>Feature rich <br/>
-            <span className = {[classes.text1]}> Project Management Application</span>
-            <br/>
-            <span className = {classes.text3}>
-                                            for your team
-                                       </span>
-        </h1>
-        <ExpandMoreIcon className={classes.expand}/>
-    </div>
-}
-
 export default function LandingPage() {
+
     const classes = useStyles();
     return (
         <div className = {classes.root}>
             <CssBaseline/>
             <Header/>
-            <Desc/>
+           <div>
+               <Login/>
+           </div>
         </div>
     )
 }
