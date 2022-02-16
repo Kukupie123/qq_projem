@@ -83,6 +83,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>auth_mc</finalName>
     </build>
 
 

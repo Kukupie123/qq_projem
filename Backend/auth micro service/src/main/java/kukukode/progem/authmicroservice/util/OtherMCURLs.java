@@ -5,7 +5,7 @@ public final class OtherMCURLs {
     }
 
     public static String JWT() {
-        return "http://localhost:1234/jwt";
+        return "http://localhost:3000/jwt";
     }
 
     public static String JWT_GENERATE() {

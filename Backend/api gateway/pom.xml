@@ -89,6 +89,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>apigateway_mc</finalName>
     </build>
 
 </project>
