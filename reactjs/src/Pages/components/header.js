@@ -4,6 +4,7 @@ import React from "react";
 
 
 const useStyles = makeStyles((theme) => ({
+
     appBar: {
         background: "none",
 
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: "1",
         fontFamily: "fantasy",
-        color: "#4c6ccd"
+        color: "#27c433"
 
     },
 
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
     const classes = useStyles();
     return (
-        <div>
+        <div className={classes.root}>
             <AppBar className = {classes.appBar} elevation = "0">
                 <Toolbar className = {classes.appBarWrapper}>
                     <h1 className = {[classes.title]}>
@@ -49,6 +50,8 @@ export default function Header() {
                     </IconButton>
                 </Toolbar>
             </AppBar>
+
+
         </div>
     )
 }
