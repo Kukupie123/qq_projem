@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2721e235-7c07-467a-9910-aa503fba3987" name="Default Changelist" comment="Login page done">
-      <change afterPath="$PROJECT_DIR$/src/Util/CookieProcess.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/AuthMicroServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/AuthMicroServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/controllers/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/JwtMcApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/JwtMcApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/controllers/ControllerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/controllers/ControllerMain.java" afterDir="false" />
+    <list default="true" id="2721e235-7c07-467a-9910-aa503fba3987" name="Default Changelist" comment="Frontend and backend refinement">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Pages/HomeWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/HomeWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/Landing Page/landing page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Landing Page/landing page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInResp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInResp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/Service_SignUpIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/Service_SignUpIn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pages/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pages/test/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInReq.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInResp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignUpReq.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Home/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignUpResp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/Service_SignUpIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/Sign-up-in-Service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Util/CookieProcess.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/CookieService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Util/RequestFormats.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/ReqRespService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +80,7 @@
       <recent name="D:\Projects\Full stack\Project Management\reactjs\src\Pages\Landing Page" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Projects\Full stack\Project Management\reactjs\src\Services" />
       <recent name="D:\Projects\Full stack\Project Management\reactjs\src\Pages\Login" />
     </key>
   </component>
@@ -131,7 +132,7 @@
       <workItem from="1645002545320" duration="3924000" />
       <workItem from="1645012458776" duration="11557000" />
       <workItem from="1645033748912" duration="607000" />
-      <workItem from="1645085482274" duration="5565000" />
+      <workItem from="1645085482274" duration="6535000" />
     </task>
     <task id="LOCAL-00001" summary="FRONTEND v1">
       <created>1645003970841</created>
@@ -161,7 +162,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645024396083</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Frontend and backend refinement">
+      <created>1645092828907</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1645092828907</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +193,8 @@
     <MESSAGE value="Header added" />
     <MESSAGE value="landing page done" />
     <MESSAGE value="Login page done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Login page done" />
+    <MESSAGE value="Frontend and backend refinement" />
+    <option name="LAST_COMMIT_MESSAGE" value="Frontend and backend refinement" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

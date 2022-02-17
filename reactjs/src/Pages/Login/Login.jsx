@@ -6,7 +6,7 @@ import {Button} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
 import {makeStyles} from "@material-ui/core";
 //Service
-import {SignIn} from "../../Services/Service_SignUpIn"
+import {SignIn} from "../../Services/Sign-up-in-Service"
 
 //variables
 let email = null;
@@ -72,7 +72,7 @@ const Login = () => {
 
                 <div>
                     <Button onClick = {() => {
-                        SignIn(email, password)
+                        new SignIn(email, password )
                     }}>Login</Button>
                 </div>
             </div>
