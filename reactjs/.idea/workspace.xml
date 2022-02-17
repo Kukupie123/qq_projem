@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2721e235-7c07-467a-9910-aa503fba3987" name="Default Changelist" comment="Login page done" />
+    <list default="true" id="2721e235-7c07-467a-9910-aa503fba3987" name="Default Changelist" comment="Login page done">
+      <change afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInReq.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInResp.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignUpReq.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignUpResp.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Services/Service_SignUpIn.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Util/APIUrls.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Util/RequestFormats.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/ApiGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/ApiGatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/config/SpringCloudConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/config/SpringCloudConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/filters/postfilters/GlobalPostfilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/filters/postfilters/GlobalPostfilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/filters/prefilters/GlobalPrefilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/filters/prefilters/GlobalPrefilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/reqres/JwtMC/JwtMCResp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/reqres/JwtMC/JwtMCResp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/resources/applicationproperties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/AuthMicroServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/AuthMicroServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/controllers/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/JwtMcApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/JwtMcApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/controllers/ControllerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/controllers/ControllerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pages/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pages/components/input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/components/input.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +55,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../../../Users/kuchu/.m2/repository/org/springframework/data/spring-data-commons/2.6.1/spring-data-commons-2.6.1.jar!/org/springframework/data/repository/CrudRepository.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="JsBowerSettings">
     <bower-package value="" />
@@ -55,7 +86,7 @@
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Language Defaults" />
     <property name="ts.external.directory.path" value="D:\Program Files\JetBrains\IntelliJ IDEA 2021.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -68,6 +99,17 @@
     </key>
   </component>
   <component name="RunManager" selected="npm.npm start">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
     </configuration>
@@ -81,6 +123,10 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.Debug Application" />
+      <item itemvalue="npm.npm start" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -100,6 +146,7 @@
       <workItem from="1645002545320" duration="3924000" />
       <workItem from="1645012458776" duration="11557000" />
       <workItem from="1645033748912" duration="607000" />
+      <workItem from="1645085482274" duration="1402000" />
     </task>
     <task id="LOCAL-00001" summary="FRONTEND v1">
       <created>1645003970841</created>

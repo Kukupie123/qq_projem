@@ -1,8 +1,29 @@
 import styled from "styled-components";
+import {makeStyles} from "@material-ui/core";
 
-export default function Input({type, placeholder}) {
+const styles = makeStyles(() => ({
+        style: {
+            background: "rgba(255,255,255,0.15)",
+            boxShadow: "0px 8px 32px 0 rgba(31,32,135,0.37)",
+            borderRadius: "2rem",
+            width: "80%",
+            height: "3rem",
+            padding: "1rem",
+            border: "none",
+            outline: "none",
+            margin: "1rem",
+            color: "#3c354e",
+            fontSize: "1rem",
+            fontWeight: "bold",
+            textColor: "#ffff"
+        }
+    }
+))
+
+export default function Input({type, placeholder, onValueChange}) {
     return (
-        <StyledInput type={type} placeholder={placeholder}/>
+
+        <input className={styles().style} type={type} placeholder={placeholder} onChange={onValueChange}/>
     )
 }
 
@@ -32,6 +53,5 @@ border-radius: 2rem;
 color : #b9abe099;
 font-weight: 100;
 font-size : 1rem;
-
 }
 `;
