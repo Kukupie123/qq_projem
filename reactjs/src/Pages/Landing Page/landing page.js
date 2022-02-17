@@ -6,10 +6,16 @@ import Header from "../components/header";
 import Login from "../Login/Login";
 import {CssBaseline} from "@mui/material";
 
+import Image from "../../assets/bg.jpg"
+
+
+
 const useStyles = makeStyles(() => ({
     root: {
-        backgroundImage: "bg.jpg",
+        backgroundImage:`url(${Image})`,
         backgroundRepeat: "no-repeat",
+        backgroundPosition:"center",
+        borderRadius:'8',
         backgroundSize: "cover",
         display: "flex",
         flexDirection: "column",
@@ -61,7 +67,9 @@ export default function LandingPage() {
 
     const classes = useStyles();
     return (
-        <div className = {classes.root}>
+        <div className = {classes.root} style={{
+            backgroundImage : Image
+        }}>
             <CssBaseline/>
             <Header/>
             <div>

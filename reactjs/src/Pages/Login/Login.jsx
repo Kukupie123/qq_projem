@@ -1,5 +1,6 @@
 //components
-import "./login.css"
+import Image from "../../assets/bg.gif"
+
 import Input from "../components/input";
 import {Button} from "react-bootstrap";
 //css
@@ -12,6 +13,7 @@ import {SignIn} from "../../Services/Sign-up-in-Service"
 let email = null;
 let password = null;
 
+
 //functions
 function handleEmail(event) {
     console.log(event.target.value)
@@ -22,11 +24,13 @@ function handlePassword(event) {
     password = event.target.value;
     console.log(password)
 }
-
 //Styles
 const styles = makeStyles(() => ({
     root: {
+        backgroundImage:`url(${Image})`,
         height: "100vh",
+        backgroundRepeat:"no-repeat",
+        backgroundSize:"cover",
         minHeight: "100vh",
         width: "100vw",
         display: "flex",

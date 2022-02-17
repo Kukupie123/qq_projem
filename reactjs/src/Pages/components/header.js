@@ -1,9 +1,7 @@
-import {AppBar, Collapse, Dialog, IconButton, makeStyles, Toolbar} from "@material-ui/core";
+import {AppBar, Collapse, IconButton, makeStyles, Toolbar} from "@material-ui/core";
 import {SortSharp} from "@material-ui/icons";
 import React, {useEffect, useState} from "react";
-import {Desc} from "../Landing Page/landing page";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Login from "../Login/Login";
 import {Link} from "react-scroll"
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +12,12 @@ const useStyles = makeStyles((theme) => ({
     root: {
         minHeight: "100vh",
         height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+        flexDirection: "column"
+    },
+    root2:{
         display: "flex",
         justifyContent: "center",
         alignContent: "center",
@@ -96,7 +100,19 @@ const useStyles2 = makeStyles((theme) => ({
 }));
 
 
-export default function Header() {
+export default function Header({showDesc = true}) {
+    const classes = useStyles();
+    const classesD = useStyles2();
+//set state objects
+    const [checked, setCheck] = useState(false);
+    //called at start
+    useEffect(() => setCheck(true));
+    if (showDesc === false) return HeaderNoDesc()
+    return Headerz()
+}
+
+
+let Headerz = () => {
     const classes = useStyles();
     const classesD = useStyles2();
 //set state objects
@@ -118,6 +134,7 @@ export default function Header() {
                     </IconButton>
                 </Toolbar>
             </AppBar>
+
             <Collapse in = {checked}{...(checked ? {timeout: 1000} : {})} collapsedHeight = "50"
                       className = {classesD.desc}>
                 <div>
@@ -128,13 +145,38 @@ export default function Header() {
                                             for your Projects
                                        </span>
                     </h1>
-                    <Link to = "login-signup" smooth = {true} duration={300}>
+                    <Link to = "login-signup" smooth = {true} duration = {300}>
                         <IconButton>
                             <ExpandMoreIcon className = {classesD.expand}/>
                         </IconButton>
                     </Link>
                 </div>
             </Collapse>
+        </div>
+    )
+}
+
+let HeaderNoDesc = () => {
+    const classes = useStyles();
+//set state objects
+    const [checked, setCheck] = useState(false);
+    //called at start
+    useEffect(() => setCheck(true));
+    return (
+        <div className = {classes.root2}>
+            <AppBar className = {classes.appBar} elevation = "0">
+                <Toolbar className = {classes.appBarWrapper}>
+                    <h1 className = {[classes.title]}>
+                        PRO
+                        <span className = {classes.gem}>
+                            GEM
+                        </span>
+                    </h1>
+                    <IconButton>
+                        <SortSharp className = {classes.sort}/>
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
         </div>
     )
 }

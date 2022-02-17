@@ -1,6 +1,6 @@
 ﻿import {SIGNIN} from "../Util/APIUrls"
 import {createHeader, createReq, createSignInRequest, parseSignInResponse} from "./ReqRespService"
-import {AddCookie,GetCookie} from "./CookieService"
+import {AddCookie, GetCookie} from "./CookieService"
 
 
 /**
@@ -20,8 +20,7 @@ export function SignIn(username, password) {
     fetch(url, request).then(r => r.json()).then(data => {
         const tokenJWT = parseSignInResponse(data)
         //save token to cookie
-        AddCookie("jwt",tokenJWT)
+        AddCookie("jwt", tokenJWT)
         console.log(GetCookie("jwt"))
-
     })
 }
