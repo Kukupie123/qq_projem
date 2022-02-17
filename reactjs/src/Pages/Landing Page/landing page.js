@@ -64,9 +64,9 @@ export default function LandingPage() {
         <div className = {classes.root}>
             <CssBaseline/>
             <Header/>
-           <div>
-               <Login/>
-           </div>
+            <div>
+                <Login/>
+            </div>
         </div>
     )
 }

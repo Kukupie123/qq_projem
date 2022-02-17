@@ -2,33 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2721e235-7c07-467a-9910-aa503fba3987" name="Default Changelist" comment="Login page done">
-      <change afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/aws.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.reactjs.dir/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInReq.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInResp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignUpReq.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignUpResp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Services/Service_SignUpIn.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Util/APIUrls.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Util/RequestFormats.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/ApiGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/ApiGatewayApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/config/SpringCloudConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/config/SpringCloudConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/filters/postfilters/GlobalPostfilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/filters/postfilters/GlobalPostfilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/filters/prefilters/GlobalPrefilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/filters/prefilters/GlobalPrefilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/reqres/JwtMC/JwtMCResp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/reqres/JwtMC/JwtMCResp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/resources/applicationproperties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Util/CookieProcess.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/AuthMicroServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/AuthMicroServiceApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/auth micro service/src/main/java/kukukode/progem/authmicroservice/controllers/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/JwtMcApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/JwtMcApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/controllers/ControllerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/jwt_mc/src/main/java/kukukode/progem/jwt_mc/controllers/ControllerMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Login/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/components/input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/components/input.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pages/HomeWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/HomeWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pages/Landing Page/landing page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Landing Page/landing page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInResp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReqResp/Signup-in/SignInResp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/Service_SignUpIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/Service_SignUpIn.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +131,7 @@
       <workItem from="1645002545320" duration="3924000" />
       <workItem from="1645012458776" duration="11557000" />
       <workItem from="1645033748912" duration="607000" />
-      <workItem from="1645085482274" duration="1402000" />
+      <workItem from="1645085482274" duration="5565000" />
     </task>
     <task id="LOCAL-00001" summary="FRONTEND v1">
       <created>1645003970841</created>
