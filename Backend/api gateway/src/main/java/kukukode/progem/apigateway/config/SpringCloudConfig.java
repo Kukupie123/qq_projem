@@ -11,10 +11,4 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringCloudConfig {
 
-    @Bean
-    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
-        return builder.routes()
-                .route(r -> r.path(RoutePaths.AUTH).uri(RouteURIs.AUTH))
-                .build();
-    }
 }
