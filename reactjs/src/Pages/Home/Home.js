@@ -5,6 +5,7 @@ import Header from "../components/header";
 import Image from "../../assets/bg.jpg"
 //Styles
 import {Button, makeStyles} from "@material-ui/core";
+import {Input} from "@mui/material";
 
 const styles = makeStyles(() => ({
     root: {
@@ -14,10 +15,10 @@ const styles = makeStyles(() => ({
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        justifyContent: "center",
-        alignContent: "center",
+        justifyContent:"end",
+        alignContent:"space-between",
         width: "100vw",
-        minWidth: "100vw"
+
     },
 
     button: {
@@ -29,6 +30,15 @@ const styles = makeStyles(() => ({
         alignContent: "center",
         margin: "10px 10px 10px 10px",
         background: "rgba(255 255 255 0.4f)",
+    },
+
+    inputDiv:{
+        width:"50%",
+        display:"flex",
+        flexDirection:"column",
+        background:"white",
+        padding:"10px 10px 10px 10px",
+        margin:"10px 10px 10px 10px"
     }
 }))
 
@@ -43,7 +53,7 @@ export default function () {
     return (
         <div className = {style.root}>
             <Header showDesc = {false}/>
-
+            <CreateField/>
             <Button type = "button" variant = "contained" className = {style.button}>Create a new Project</Button>
             <Button type = "button" variant = "contained" className = {style.button}>View Projects</Button>
 
@@ -51,4 +61,11 @@ export default function () {
     )
 }
 
-
+let CreateField = ()=>{
+    return (
+       <div className={styles().inputDiv}>
+           <Input placeholder="Title"/>
+           <Input placeholder="Description"/>
+       </div>
+    )
+}

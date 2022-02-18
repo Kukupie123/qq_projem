@@ -1,21 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2721e235-7c07-467a-9910-aa503fba3987" name="Default Changelist" comment="Frontend refinement">
-      <change afterPath="$PROJECT_DIR$/src/Pages/Home/bg.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/bg.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/config/SpringCloudConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/config/SpringCloudConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="2721e235-7c07-467a-9910-aa503fba3987" name="Default Changelist" comment="Home page basic done">
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/ProjectApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/controllers/MainController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/jpa/ProjectEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/model/ProjectRules.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/repo/ProjectDBRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/reqresp/CreateProjectRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/reqresp/CreateProjectResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/reqresp/microservice/JwtMCResp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/service/ProjectService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/service/ProjectServiceImp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/service/microservice/JWTMCService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/service/microservice/RuleMCService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/java/kukukode/project/util/PrivateMCURLs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/project_mc/src/test/java/kukukode/project/ProjectApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/Rules.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/src/main/java/kukukode/rules_mc/Entity/ProjectRulesEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/src/main/java/kukukode/rules_mc/RulesMcApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/src/main/java/kukukode/rules_mc/controller/MainController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Backend/rules_MC/src/test/java/kukukode/rules_mc/RulesMcApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../~$cumentation.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/util/PrivateMCURLs.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/util/PrivateMCURLs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/util/RoutePaths.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/util/RoutePaths.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/util/RouteURIs.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Backend/api gateway/src/main/java/kukukode/progem/apigateway/util/RouteURIs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../documentation.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../documentation.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Pages/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Home/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/Landing Page/bg.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/bg.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/Landing Page/landing page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Landing Page/landing page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/Login/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/Login/bg.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/Login/login.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pages/components/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/components/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/Sign-up-in-Service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/Sign-up-in-Service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/bg.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/bg.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,19 +118,6 @@
     </key>
   </component>
   <component name="RunManager" selected="npm.npm start">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
     </configuration>
@@ -140,7 +155,8 @@
       <workItem from="1645012458776" duration="11557000" />
       <workItem from="1645033748912" duration="607000" />
       <workItem from="1645085482274" duration="7148000" />
-      <workItem from="1645103503681" duration="6151000" />
+      <workItem from="1645103503681" duration="9261000" />
+      <workItem from="1645169447615" duration="587000" />
     </task>
     <task id="LOCAL-00001" summary="FRONTEND v1">
       <created>1645003970841</created>
@@ -184,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645093792571</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Home page basic done">
+      <created>1645111527577</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1645111527577</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,7 +233,8 @@
     <MESSAGE value="Login page done" />
     <MESSAGE value="Frontend and backend refinement" />
     <MESSAGE value="Frontend refinement" />
-    <option name="LAST_COMMIT_MESSAGE" value="Frontend refinement" />
+    <MESSAGE value="Home page basic done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Home page basic done" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
