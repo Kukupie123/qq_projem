@@ -2,7 +2,7 @@ package kukukode.authentication_mc.service;
 
 import kukukode.authentication_mc.entities.UserEntity;
 import kukukode.authentication_mc.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -21,17 +21,18 @@ public class UserService {
      *
      * @return token
      */
-    public Mono<Boolean> signIn(UserEntity user) {
-        if(user.getEmail()==null || user.getCred() == null ) return Mono.just(false);
+    public Mono<ResponseEntity<Boolean>> signIn(UserEntity user) {
+        if (user.getEmail() == null || user.getCred() == null)
+            return Mono.just(ResponseEntity.badRequest().body(false));
         var monoUser = repo.findById(user.getEmail());
 
         //Return appropriate mono after validating password
         return monoUser.map(userEntity -> {
             if (user.getCred().equals(userEntity.getCred()))
                 //Correct credentials
-                return true;
+                return ResponseEntity.ok().body(true);
             //Wrong credentials
-            return false;
+            return ResponseEntity.badRequest().body(false);
         });
 
     }
