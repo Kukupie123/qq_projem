@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  jwt:
+    image: progem-jwt_mc
+    depends_on:
+      - gateway
+      - authentication
+    ports:
+      - 3000:3000
+
+  authentication:
+    image: progem-authentication_mc
+    depends_on:
+      - gateway
+    ports:
+      - 2000:2000
+  
+  gateway:
+    image: progem-gateway_mc
+    ports:
+      - 1000:1000
+    command: "java -jar file.jar --urlAUTH=auth --urlJWT=jwt"
+

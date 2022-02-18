@@ -1,0 +1,29 @@
+services:
+  jwt:
+    image: progem-jwt_mc
+    networks:
+      apps:
+        ipv4_address: 10.1.3.2
+    depends_on:
+      - gate
+    extra_hosts:
+      - "gate.localhost:10.1.3.1"
+  auth:
+    image: progem-authentication_mc
+    networks:
+      apps:
+        ipv4_address: 10.1.3.2
+    depends_on:
+      - gate
+  gate:
+    image: progem-gateway_mc
+    networks:
+      apps:
+        ipv4_address: 10.1.3.1
+    ports:
+    - "1000:1000"
+    extra_hosts:
+      - "jwt.localhost:10.1.3.2"
+
+networks:
+  serv:
