@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/auth")
-@Slf4j
 public class AuthController {
     final private AuthService authService;
     final private JWTService jwtService;

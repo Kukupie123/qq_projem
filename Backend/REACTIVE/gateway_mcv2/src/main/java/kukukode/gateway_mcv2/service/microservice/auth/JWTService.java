@@ -21,4 +21,18 @@ public class JWTService {
                     });
                 });
     }
+
+    public Mono<ResponseEntity<String>> extractUserIDFromToken(String token) {
+
+        WebClient client = WebClient.create(MicroServiceURLs.JWT + MicroServiceURLs.JWT_EXTRACT);
+        return client
+                .post()
+                .header("Authorization", token)
+                .exchangeToMono(clientResponse -> {
+                    return clientResponse.bodyToMono(String.class)
+                            .map(o -> {
+                                return ResponseEntity.status(clientResponse.statusCode()).body(o);
+                            });
+                });
+    }
 }

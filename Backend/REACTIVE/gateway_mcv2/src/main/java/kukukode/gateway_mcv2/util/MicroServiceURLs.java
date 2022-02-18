@@ -1,5 +1,7 @@
 package kukukode.gateway_mcv2.util;
 
+import java.io.PrintStream;
+
 public final class MicroServiceURLs {
     private MicroServiceURLs() {
     }
@@ -12,4 +14,5 @@ public final class MicroServiceURLs {
     public static final String JWT_GENERATE(String id) {
         return "/generate/?id=" + id;
     }
+    public static final String JWT_EXTRACT = "/getuserid";
 }
