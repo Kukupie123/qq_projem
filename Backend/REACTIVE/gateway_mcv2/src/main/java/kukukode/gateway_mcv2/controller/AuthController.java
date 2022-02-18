@@ -35,6 +35,12 @@ public class AuthController {
 
         //Sign-in returns a ResponseEntity<Boolean>
         Mono<ResponseEntity<String>> resp = authService.signin(userEntity) //Signin
+                /*
+                Using flatMap was the right thing that took forever for me to figure out.
+                Map is going to Make Mono out of the returned Value
+                Since JWT service returns a Mono I was getting Mono<Mono<ResponseEntity<String>>>
+                Switching to flatMap totally gave me the freedom to return What I want
+                 */
                 .flatMap(booleanResponseEntity -> {
                     //Once we get value we enter this lambda
                     if (booleanResponseEntity.getBody()) {
