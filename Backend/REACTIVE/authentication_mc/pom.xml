@@ -74,6 +74,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>authentication_mc</finalName>
     </build>
 
 </project>

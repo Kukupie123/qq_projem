@@ -74,6 +74,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>gateway_mc</finalName>
     </build>
 
 </project>

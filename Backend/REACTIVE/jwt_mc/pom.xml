@@ -86,6 +86,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>jwt_mc</finalName>
     </build>
 
 </project>
