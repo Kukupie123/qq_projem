@@ -1,7 +1,7 @@
 package kukukode.gateway_mcv2.controller;
 
 
-import kukukode.gateway_mcv2.service.microservice.auth.JWTService;
+import kukukode.gateway_mcv2.service.microservice.jwt.JWTService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

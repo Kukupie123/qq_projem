@@ -2,8 +2,7 @@ package kukukode.gateway_mcv2.controller;
 
 import kukukode.gateway_mcv2.entities.UserEntity;
 import kukukode.gateway_mcv2.service.microservice.auth.AuthService;
-import kukukode.gateway_mcv2.service.microservice.auth.JWTService;
-import lombok.extern.slf4j.Slf4j;
+import kukukode.gateway_mcv2.service.microservice.jwt.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,4 +51,5 @@ public class AuthController {
         return resp;
 
     }
+
 }
