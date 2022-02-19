@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../../.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/denisenkom/go-mssqldb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/go-sql-driver/mysql" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/golang-sql/civil" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/golang-sql/sqlexp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/google/uuid" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/gorilla/mux" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jackc/chunkreader" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgconn" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgio" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgpassfile" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgproto3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgservicefile" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgtype" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgx" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jinzhu/inflection" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jinzhu/now" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/lib/pq" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/mattn/go-sqlite3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/crypto" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/text" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gorm.io/driver/mysql" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gorm.io/driver/postgres" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gorm.io/driver/sqlite" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gorm.io/driver/sqlserver" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/gorm.io/gorm" vcs="Git" />
+  </component>
+</project>
