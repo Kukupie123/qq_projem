@@ -4,6 +4,10 @@ server:
 #These values will be changed by docker when through params
 urlAUTH: localhost
 urlJWT: localhost
+urlProject: localhost
+urlProjectRule: localhost
 portAUTH: 2000
 portJWT: 3000
+portProject: 4000
+portProjectRule: 5000
 
