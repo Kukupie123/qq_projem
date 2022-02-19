@@ -16,6 +16,7 @@
     <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgservicefile" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgtype" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/jackc/pgx" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jinzhu/gorm" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/jinzhu/inflection" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/jinzhu/now" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/lib/pq" vcs="Git" />
