@@ -27,7 +27,7 @@ public class JWTService {
     }
 
     public String generateToken(String email) {
-        int expiry = 60000 * 5; //expires after currentTime + 'expiry' millisecond
+        int expiry = 60000 * 30; //expires after currentTime + 'expiry' millisecond
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))

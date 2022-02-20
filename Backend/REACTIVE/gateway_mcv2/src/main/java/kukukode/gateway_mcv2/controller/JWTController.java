@@ -1,7 +1,7 @@
 package kukukode.gateway_mcv2.controller;
 
 
-import kukukode.gateway_mcv2.service.microservice.jwt.JWTService;
+import kukukode.gateway_mcv2.service.microservice.jwt.JWTMCService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -12,18 +12,18 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/jwt")
 public class JWTController {
     final
-    JWTService jwtService;
+    JWTMCService JWTMCService;
     final Logger log;
 
-    public JWTController(JWTService jwtService) {
+    public JWTController(JWTMCService JWTMCService) {
         this.log = LoggerFactory.getLogger("GATE LOG");
-        this.jwtService = jwtService;
+        this.JWTMCService = JWTMCService;
     }
 
     @PostMapping("/getuserid")
     public Mono<ResponseEntity<String>> extractUserIDFromToken(@RequestHeader(name = "Authorization") String token) {
         log.debug("Get UserID Called From GATE MC");
-        return jwtService.extractUserIDFromToken(token)
+        return JWTMCService.extractUserIDFromToken(token)
                 .map(stringResponseEntity -> {
                     return stringResponseEntity;
                 });

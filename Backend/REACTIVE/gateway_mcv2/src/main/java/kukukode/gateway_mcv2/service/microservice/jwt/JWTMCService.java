@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-public class JWTService {
+public class JWTMCService {
     @Value(ApplicationAttributeNames.HOSTURL_JWT)
     String hostUrl;
     @Value(ApplicationAttributeNames.PORT_JWT)

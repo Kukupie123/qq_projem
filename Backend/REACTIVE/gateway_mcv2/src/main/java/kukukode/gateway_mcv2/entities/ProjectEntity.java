@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -15,6 +17,7 @@ import java.util.Date;
 @Table("projects")
 public class ProjectEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String title;
     String description;

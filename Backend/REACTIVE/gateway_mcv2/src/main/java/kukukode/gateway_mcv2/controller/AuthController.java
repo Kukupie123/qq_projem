@@ -2,7 +2,7 @@ package kukukode.gateway_mcv2.controller;
 
 import kukukode.gateway_mcv2.entities.UserEntity;
 import kukukode.gateway_mcv2.service.microservice.auth.AuthService;
-import kukukode.gateway_mcv2.service.microservice.jwt.JWTService;
+import kukukode.gateway_mcv2.service.microservice.jwt.JWTMCService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +15,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/auth")
 public class AuthController {
     final private AuthService authService;
-    final private JWTService jwtService;
+    final private JWTMCService JWTMCService;
 
     @Autowired
-    public AuthController(AuthService authService, JWTService jwtService) {
+    public AuthController(AuthService authService, JWTMCService JWTMCService) {
         this.authService = authService;
-        this.jwtService = jwtService;
+        this.JWTMCService = JWTMCService;
     }
 
     /**
@@ -43,7 +43,7 @@ public class AuthController {
                     //Once we get value we enter this lambda
                     if (booleanResponseEntity.getBody()) {
                         //Generate JWT as Sign in was a success
-                        return jwtService.generate(userEntity.getEmail());
+                        return JWTMCService.generate(userEntity.getEmail());
                     }
                     //Create a new mono and return since sign in failed;
                     return Mono.just(ResponseEntity.status(booleanResponseEntity.getStatusCode()).body(""));

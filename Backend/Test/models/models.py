@@ -1,25 +1,30 @@
-from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
-from app import app
+from sqlalchemy import Column, Integer, String, Date, Boolean
+from sqlalchemy.orm import declarative_base
 
-db = SQLAlchemy(app)
+Base = declarative_base()
 
 
-class Project(db.Model):
+class Project(Base):
     __tablename__ = 'projects'
-    id = db.Column(
-        db.Integer, primary_key=True, name="id", nullable=False
-    )
-    title = db.Column(db.String)
-    description = db.Column(db.String)
-    ancestry = db.Column(db.String)
-    timestamp = db.Column(db.Date)
-    iscomplete = db.Column(db.Boolean)
-    rulesid = db.Column(db.Integer)
-    userid = db.Column(db.String)
+    id = Column(Integer, primary_key=True,)
+    title = Column(String)
+    description = Column(String)
+    ancestry = Column(String)
+    timestamp = Column(Date, default=datetime.utcnow())
+    iscomplete = Column(Boolean)
+    rulesid = Column(Integer)
+    userid = Column(String)
 
-
-class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.String, primary_key=True, name="email", nullable=False)
-    password = db.Column(db.String, primary_key=False, name="cred", nullable=False)
+    def toDict(self):
+        return dict(
+            title=self.title,
+            description=self.description,
+            ancestry=self.ancestry,
+            timestamp=self.timestamp,
+            iscomplete=self.iscomplete,
+            rulesid=self.rulesid,
+            userid=self.userid,
+            id=self.id
+        )
