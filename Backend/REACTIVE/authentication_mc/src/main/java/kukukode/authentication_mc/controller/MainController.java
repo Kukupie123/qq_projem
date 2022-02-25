@@ -25,4 +25,10 @@ public class MainController {
     public Mono<ResponseEntity<Boolean>> signin(@RequestBody UserEntity userEntity) {
         return userService.signIn(userEntity);
     }
+
+    @PostMapping("/signup")
+    public Mono<ResponseEntity<String>> signup(@RequestBody UserEntity user) {
+        return userService.signup(user);
+    }
+
 }

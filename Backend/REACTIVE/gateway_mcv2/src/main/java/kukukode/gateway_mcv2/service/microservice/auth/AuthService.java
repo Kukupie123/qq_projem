@@ -30,4 +30,24 @@ public class AuthService {
 
                 });
     }
+
+    public Mono<ResponseEntity<String>> signup(UserEntity user) {
+        //Create a web client
+
+        //localhost:2000/auth/signup
+        WebClient client = WebClient.create(MicroServiceURLs.AUTH(hostUrl, port) + MicroServiceURLs.AUTH_SIGNUP);
+        return client
+                .post()
+                .bodyValue(user)
+                .exchangeToMono(
+                        clientResponse -> {
+                            var messageMono = clientResponse.bodyToMono(String.class);
+                            return messageMono
+                                    .map(s -> {
+                                                return ResponseEntity.status(clientResponse.statusCode()).body(s);
+                                            }
+                                    );
+                        }
+                );
+    }
 }

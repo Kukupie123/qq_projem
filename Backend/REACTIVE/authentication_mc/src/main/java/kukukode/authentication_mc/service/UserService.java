@@ -36,4 +36,18 @@ public class UserService {
         });
 
     }
+
+    public Mono<ResponseEntity<String>> signup(UserEntity user) {
+        if (user.getEmail() == null || user.getCred() == null)
+            return Mono.just(ResponseEntity.badRequest().body("Invalid Fields"));
+
+        var savedUser = repo.save(user);
+
+        if (savedUser != null)
+            return Mono.just(ResponseEntity.ok("Successfully Signed up"));
+        return Mono.just(ResponseEntity.internalServerError().body("Something went wrong when trying to add record to database"));
+
+    }
+
+
 }

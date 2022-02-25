@@ -13,6 +13,8 @@ public final class MicroServiceURLs {
 
     public static final String AUTH_SIGNIN = "/signin";
 
+    public static final String AUTH_SIGNUP = "/signup";
+
     //JWT
 
     public static String JWT(String hostURL, int port) {

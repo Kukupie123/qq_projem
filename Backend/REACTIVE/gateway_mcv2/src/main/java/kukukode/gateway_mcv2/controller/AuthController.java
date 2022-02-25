@@ -49,7 +49,12 @@ public class AuthController {
                     return Mono.just(ResponseEntity.status(booleanResponseEntity.getStatusCode()).body(""));
                 });
         return resp;
+    }
 
+
+    @PostMapping("/signup")
+    public Mono<ResponseEntity<String>> signup(@RequestBody UserEntity user) {
+        return authService.signup(user);
     }
 
 }
