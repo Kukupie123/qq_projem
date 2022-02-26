@@ -32,23 +32,26 @@ public class AuthController {
      */
     @PostMapping("/signin")
     public Mono<ResponseEntity<BaseResponse<String>>> signin(@RequestBody UserEntity userEntity) {
-        Mono<ResponseEntity<BaseResponse<String>>> resp = authService.signin(userEntity) //Signin
+        var resp = authService.signin(userEntity) //Signin
                 /*
                 Using flatMap was the right thing that took forever for me to figure out.
                 Map is going to Make Mono out of the returned Value
                 Since JWT service returns a Mono I was getting Mono<Mono<ResponseEntity<String>>>
                 Switching  to flatMap totally gave me the freedom to return What I want
                  */
-                .flatMap(booleanResponseEntity -> {
-                    //Once we get value we enter this lambda
-                    if (booleanResponseEntity.getBody().getData()) {
-                        //Generate JWT as Sign in was a success
-                        return JWTMCService.generate(userEntity.getEmail());
-                    }
-                    //Create a new mono and return since sign in failed;
-                    BaseResponse<String> ggez = new BaseResponseImp<>(null, booleanResponseEntity.getBody().getMessage());
-                    return Mono.just(ResponseEntity.status(booleanResponseEntity.getStatusCode()).body(ggez));
-                });
+                .flatMap(
+                        booleanResponseEntity -> {
+                            System.out.println("Inside flatmap");
+                            //Once we get value we enter this lambda
+                            if (booleanResponseEntity.getBody().getData()) {
+                                //Generate JWT as Sign in was a success
+                                return JWTMCService.generate(userEntity.getEmail());
+                            }
+                            //Create a new mono and return since sign in failed;
+                            BaseResponse<String> ggez = new BaseResponseImp<>(null, booleanResponseEntity.getBody().getMessage());
+                            return Mono.just(ResponseEntity.status(booleanResponseEntity.getStatusCode()).body(ggez));
+                        }
+                );
         return resp;
     }
 

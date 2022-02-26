@@ -2,6 +2,7 @@ package kukukode.gateway_mcv2.service.microservice.auth;
 
 import kukukode.gateway_mcv2.entities.UserEntity;
 import kukukode.gateway_mcv2.response.BaseResponse;
+import kukukode.gateway_mcv2.response.BaseResponseImp;
 import kukukode.gateway_mcv2.util.ApplicationAttributeNames;
 import kukukode.gateway_mcv2.util.MicroServiceURLs;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,7 @@ public class AuthService {
                 .header("Content-Type", "application/json")
                 .header("Content-Type", "application/json")
                 .exchangeToMono(clientResponse -> {
-                    var success = clientResponse.bodyToMono(BaseResponse.class);
+                    var success = clientResponse.bodyToMono(BaseResponseImp.class);
                     return success.map(g -> {
                                 return ResponseEntity.status(clientResponse.statusCode()).body(g);
                             }
@@ -44,7 +45,7 @@ public class AuthService {
                 .bodyValue(user)
                 .exchangeToMono(
                         clientResponse -> {
-                            var messageMono = clientResponse.bodyToMono(BaseResponse.class);
+                            var messageMono = clientResponse.bodyToMono(BaseResponseImp.class);
                             return messageMono
                                     .map(s -> {
                                                 return ResponseEntity.status(clientResponse.statusCode()).body(s);

@@ -1,6 +1,7 @@
 package kukukode.gateway_mcv2.service.microservice.jwt;
 
 import kukukode.gateway_mcv2.response.BaseResponse;
+import kukukode.gateway_mcv2.response.BaseResponseImp;
 import kukukode.gateway_mcv2.util.ApplicationAttributeNames;
 import kukukode.gateway_mcv2.util.MicroServiceURLs;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +24,7 @@ public class JWTMCService {
                 .get()
                 .header("Content-Type", "application/json")
                 .exchangeToMono(clientResponse -> {
-                    var token = clientResponse.bodyToMono(BaseResponse.class);
+                    var token = clientResponse.bodyToMono(BaseResponseImp.class);
                     return token.map(s -> {
                         return ResponseEntity.status(clientResponse.statusCode()).body(s);
                     });
@@ -37,7 +38,7 @@ public class JWTMCService {
                 .post()
                 .header("Authorization", token)
                 .exchangeToMono(clientResponse -> {
-                    return clientResponse.bodyToMono(BaseResponse.class)
+                    return clientResponse.bodyToMono(BaseResponseImp.class)
                             .map(o -> {
                                 return ResponseEntity.status(clientResponse.statusCode()).body(o);
                             });

@@ -14,12 +14,10 @@ public class UserService {
     final
     UserRepo repo;
 
-
     @Autowired
     public UserService(UserRepo repo) {
         this.repo = repo;
     }
-
 
     /**
      * Returns JWT token on successful authentication
@@ -28,12 +26,11 @@ public class UserService {
      */
     public Mono<ResponseEntity<BaseResponse<Boolean>>> signIn(UserEntity user) {
         if (user.getEmail() == null || user.getCred() == null) {
-            BaseResponse<Boolean> resp = new BaseResponseImp<>(false, "");
+            BaseResponse<Boolean> resp = new BaseResponseImp<>(false, "No information provided");
             System.out.println("Bad request");
             return Mono.just(ResponseEntity.badRequest().body(resp));
         }
         var monoUser = repo.findById(user.getEmail());
-
         //Return appropriate mono after validating password
         return monoUser.flatMap(userEntity -> {
                     if (user.getCred().equals(userEntity.getCred())) {
@@ -46,9 +43,9 @@ public class UserService {
                     System.out.println("Wrong cred");
                     BaseResponse<Boolean> resp = new BaseResponseImp<>(false, "");
                     return Mono.just(ResponseEntity.ok().body(resp));
-
                 }
-        );
+        )
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
 
     }
 
