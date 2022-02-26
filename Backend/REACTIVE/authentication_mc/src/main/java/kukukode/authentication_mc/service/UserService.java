@@ -2,6 +2,9 @@ package kukukode.authentication_mc.service;
 
 import kukukode.authentication_mc.entities.UserEntity;
 import kukukode.authentication_mc.repo.UserRepo;
+import kukukode.authentication_mc.response.BaseResponse;
+import kukukode.authentication_mc.response.BaseResponseImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -11,6 +14,8 @@ public class UserService {
     final
     UserRepo repo;
 
+
+    @Autowired
     public UserService(UserRepo repo) {
         this.repo = repo;
     }
@@ -19,33 +24,49 @@ public class UserService {
     /**
      * Returns JWT token on successful authentication
      *
-     * @return token
+     * @return True as data if successful, false if wrong cred or error
      */
-    public Mono<ResponseEntity<Boolean>> signIn(UserEntity user) {
-        if (user.getEmail() == null || user.getCred() == null)
-            return Mono.just(ResponseEntity.badRequest().body(false));
+    public Mono<ResponseEntity<BaseResponse<Boolean>>> signIn(UserEntity user) {
+        if (user.getEmail() == null || user.getCred() == null) {
+            BaseResponse<Boolean> resp = new BaseResponseImp<>(false, "");
+            System.out.println("Bad request");
+            return Mono.just(ResponseEntity.badRequest().body(resp));
+        }
         var monoUser = repo.findById(user.getEmail());
 
         //Return appropriate mono after validating password
-        return monoUser.map(userEntity -> {
-            if (user.getCred().equals(userEntity.getCred()))
-                //Correct credentials
-                return ResponseEntity.ok().body(true);
-            //Wrong credentials
-            return ResponseEntity.badRequest().body(false);
-        });
+        return monoUser.flatMap(userEntity -> {
+                    if (user.getCred().equals(userEntity.getCred())) {
+                        //Correct credentials
+                        System.out.println("cc cred");
+                        BaseResponse<Boolean> resp = new BaseResponseImp<>(true, "");
+                        return Mono.just(ResponseEntity.ok().body(resp));
+                    }
+                    //Wrong credentials
+                    System.out.println("Wrong cred");
+                    BaseResponse<Boolean> resp = new BaseResponseImp<>(false, "");
+                    return Mono.just(ResponseEntity.ok().body(resp));
+
+                }
+        );
 
     }
 
-    public Mono<ResponseEntity<String>> signup(UserEntity user) {
-        if (user.getEmail() == null || user.getCred() == null)
-            return Mono.just(ResponseEntity.badRequest().body("Invalid Fields"));
-
-        var savedUser = repo.save(user);
-
-        if (savedUser != null)
-            return Mono.just(ResponseEntity.ok("Successfully Signed up"));
-        return Mono.just(ResponseEntity.internalServerError().body("Something went wrong when trying to add record to database"));
+    /**
+     * Adds the user record to the database
+     *
+     * @return true if successful, else false.
+     */
+    public Mono<ResponseEntity<BaseResponse<Boolean>>> signup(UserEntity user) {
+        if (user.getEmail() == null || user.getCred() == null) {
+            {
+                BaseResponse<Boolean> resp = new BaseResponseImp<>(false, "");
+                return Mono.just(ResponseEntity.badRequest().body(resp));
+            }
+        }
+        repo.save(user);
+        BaseResponse<Boolean> resp = new BaseResponseImp<>(true, "");
+        return Mono.just(ResponseEntity.ok(resp));
 
     }
 

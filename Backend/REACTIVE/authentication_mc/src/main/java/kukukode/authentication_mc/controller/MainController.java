@@ -2,6 +2,7 @@ package kukukode.authentication_mc.controller;
 
 
 import kukukode.authentication_mc.entities.UserEntity;
+import kukukode.authentication_mc.response.BaseResponse;
 import kukukode.authentication_mc.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +23,13 @@ public class MainController {
     }
 
     @PostMapping("/signin")
-    public Mono<ResponseEntity<Boolean>> signin(@RequestBody UserEntity userEntity) {
+    public Mono<ResponseEntity<BaseResponse<Boolean>>> signin(@RequestBody UserEntity userEntity) {
+        System.out.println("Sign in ");
         return userService.signIn(userEntity);
     }
 
     @PostMapping("/signup")
-    public Mono<ResponseEntity<String>> signup(@RequestBody UserEntity user) {
+    public Mono<ResponseEntity<BaseResponse<Boolean>>> signup(@RequestBody UserEntity user) {
         return userService.signup(user);
     }
 

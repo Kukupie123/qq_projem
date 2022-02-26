@@ -3,6 +3,7 @@ package kukukode.authentication_mc.config;
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactoryOptions;
+import kukukode.authentication_mc.response.BaseResponseImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,6 +25,11 @@ public class R2DBCConfig {
                         .option(DATABASE, "progem")
                         .option(MAX_SIZE, 40)
                         .build());
+    }
+
+    @Bean
+    public BaseResponseImp baseResponse() {
+        return new BaseResponseImp();
     }
 
 }

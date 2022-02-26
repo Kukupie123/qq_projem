@@ -31,7 +31,7 @@ public class ProjectMCService {
         return jwtmcService.extractUserIDFromToken(token)
                 .flatMap(stringResponseEntity -> {
                             if (stringResponseEntity.getStatusCode().is2xxSuccessful()) {
-                                String userID = stringResponseEntity.getBody();
+                                String userID = stringResponseEntity.getBody().getData();
                                 //Extracted Successfully
                                 return WebClient.create(MicroServiceURLs.PROJECT(host, port) + MicroServiceURLs.PROJECT_CREATE_ROOT)
                                         .post()

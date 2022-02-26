@@ -1,6 +1,8 @@
 package kukukode.gateway_mcv2.controller;
 
 import kukukode.gateway_mcv2.entities.UserEntity;
+import kukukode.gateway_mcv2.response.BaseResponse;
+import kukukode.gateway_mcv2.response.BaseResponseImp;
 import kukukode.gateway_mcv2.service.microservice.auth.AuthService;
 import kukukode.gateway_mcv2.service.microservice.jwt.JWTMCService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,31 +31,30 @@ public class AuthController {
      * @return JWT token
      */
     @PostMapping("/signin")
-    public Mono<ResponseEntity<String>> signin(@RequestBody UserEntity userEntity) {
-
-        //Sign-in returns a ResponseEntity<Boolean>
-        Mono<ResponseEntity<String>> resp = authService.signin(userEntity) //Signin
+    public Mono<ResponseEntity<BaseResponse<String>>> signin(@RequestBody UserEntity userEntity) {
+        Mono<ResponseEntity<BaseResponse<String>>> resp = authService.signin(userEntity) //Signin
                 /*
                 Using flatMap was the right thing that took forever for me to figure out.
                 Map is going to Make Mono out of the returned Value
                 Since JWT service returns a Mono I was getting Mono<Mono<ResponseEntity<String>>>
-                Switching to flatMap totally gave me the freedom to return What I want
+                Switching  to flatMap totally gave me the freedom to return What I want
                  */
                 .flatMap(booleanResponseEntity -> {
                     //Once we get value we enter this lambda
-                    if (booleanResponseEntity.getBody()) {
+                    if (booleanResponseEntity.getBody().getData()) {
                         //Generate JWT as Sign in was a success
                         return JWTMCService.generate(userEntity.getEmail());
                     }
                     //Create a new mono and return since sign in failed;
-                    return Mono.just(ResponseEntity.status(booleanResponseEntity.getStatusCode()).body(""));
+                    BaseResponse<String> ggez = new BaseResponseImp<>(null, booleanResponseEntity.getBody().getMessage());
+                    return Mono.just(ResponseEntity.status(booleanResponseEntity.getStatusCode()).body(ggez));
                 });
         return resp;
     }
 
 
     @PostMapping("/signup")
-    public Mono<ResponseEntity<String>> signup(@RequestBody UserEntity user) {
+    public Mono<ResponseEntity<BaseResponse<Boolean>>> signup(@RequestBody UserEntity user) {
         return authService.signup(user);
     }
 

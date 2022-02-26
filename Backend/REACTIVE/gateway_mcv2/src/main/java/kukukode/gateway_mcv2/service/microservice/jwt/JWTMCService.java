@@ -1,5 +1,6 @@
 package kukukode.gateway_mcv2.service.microservice.jwt;
 
+import kukukode.gateway_mcv2.response.BaseResponse;
 import kukukode.gateway_mcv2.util.ApplicationAttributeNames;
 import kukukode.gateway_mcv2.util.MicroServiceURLs;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,27 +17,27 @@ public class JWTMCService {
     int port;
 
     //GENERATE Returns a
-    public Mono<ResponseEntity<String>> generate(String id) {
+    public Mono<ResponseEntity<BaseResponse<String>>> generate(String id) {
         WebClient client = WebClient.create(MicroServiceURLs.JWT(hostUrl, port) + MicroServiceURLs.JWT_GENERATE(id));
         return client
                 .get()
                 .header("Content-Type", "application/json")
                 .exchangeToMono(clientResponse -> {
-                    var token = clientResponse.bodyToMono(String.class);
+                    var token = clientResponse.bodyToMono(BaseResponse.class);
                     return token.map(s -> {
                         return ResponseEntity.status(clientResponse.statusCode()).body(s);
                     });
                 });
     }
 
-    public Mono<ResponseEntity<String>> extractUserIDFromToken(String token) {
+    public Mono<ResponseEntity<BaseResponse<String>>> extractUserIDFromToken(String token) {
         System.out.println(MicroServiceURLs.JWT(hostUrl, port) + MicroServiceURLs.JWT_EXTRACT);
         WebClient client = WebClient.create(MicroServiceURLs.JWT(hostUrl, port) + MicroServiceURLs.JWT_EXTRACT);
         return client
                 .post()
                 .header("Authorization", token)
                 .exchangeToMono(clientResponse -> {
-                    return clientResponse.bodyToMono(String.class)
+                    return clientResponse.bodyToMono(BaseResponse.class)
                             .map(o -> {
                                 return ResponseEntity.status(clientResponse.statusCode()).body(o);
                             });
