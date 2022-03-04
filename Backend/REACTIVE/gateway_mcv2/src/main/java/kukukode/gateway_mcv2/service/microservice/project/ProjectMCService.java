@@ -33,11 +33,12 @@ public class ProjectMCService {
                             if (stringResponseEntity.getStatusCode().is2xxSuccessful()) {
                                 String userID = stringResponseEntity.getBody().getData();
                                 //Extracted Successfully
+                                projectEntity.setUserid(userID);
                                 return WebClient.create(MicroServiceURLs.PROJECT(host, port) + MicroServiceURLs.PROJECT_CREATE_ROOT)
                                         .post()
                                         .bodyValue(projectEntity)
                                         .header("Authorization", userID)
-                                        .header("Content-Type","application/json")
+                                        .header("Content-Type", "application/json")
                                         .exchangeToMono(
                                                 clientResponse -> {
                                                     return clientResponse.bodyToMono(ProjectEntity.class)
