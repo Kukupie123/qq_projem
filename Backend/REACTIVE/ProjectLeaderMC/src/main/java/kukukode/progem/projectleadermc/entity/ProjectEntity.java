@@ -1,4 +1,4 @@
-package kukukode.progem.project_mcv2.entity;
+package kukukode.progem.projectleadermc.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

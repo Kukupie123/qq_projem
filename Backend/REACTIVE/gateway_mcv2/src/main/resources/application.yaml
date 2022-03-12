@@ -13,4 +13,5 @@ services:
     jwt: 3000
     project: 4000
     projectrule: 5000
+    projectmembers: 6000
 
