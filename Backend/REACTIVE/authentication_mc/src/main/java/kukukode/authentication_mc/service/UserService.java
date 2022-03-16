@@ -35,14 +35,13 @@ public class UserService {
         return monoUser.flatMap(userEntity -> {
                     if (user.getCred().equals(userEntity.getCred())) {
                         //Correct credentials
-                        System.out.println("cc cred");
                         BaseResponse<Boolean> resp = new BaseResponseImp<>(true, "");
                         return Mono.just(ResponseEntity.ok().body(resp));
                     }
                     //Wrong credentials
                     System.out.println("Wrong cred");
-                    BaseResponse<Boolean> resp = new BaseResponseImp<>(false, "");
-                    return Mono.just(ResponseEntity.ok().body(resp));
+                    BaseResponse<Boolean> resp = new BaseResponseImp<>(false, "Wrong credentials");
+                    return Mono.just(ResponseEntity.badRequest().body(resp));
                 }
         )
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
