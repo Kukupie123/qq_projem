@@ -40,5 +40,6 @@ public final class MicroServiceURLs {
     public static String RULE(String hostURL, int port) {
         return "http://" + hostURL + ":" + port + "/projectrule";
     }
+
     public static final String RULE_GETRULE = "/";
 }

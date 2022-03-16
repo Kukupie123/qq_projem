@@ -5,12 +5,11 @@ import kukukode.gateway_mcv2.response.BaseResponse;
 import kukukode.gateway_mcv2.response.BaseResponseImp;
 import kukukode.gateway_mcv2.service.microservice.auth.AuthService;
 import kukukode.gateway_mcv2.service.microservice.jwt.JWTMCService;
+import kukukode.gateway_mcv2.util.ApplicationAttributeNames;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -23,6 +22,17 @@ public class AuthController {
     public AuthController(AuthService authService, JWTMCService JWTMCService) {
         this.authService = authService;
         this.JWTMCService = JWTMCService;
+    }
+
+    @Value(ApplicationAttributeNames.HOSTURL_AUTH)
+    String gg;
+
+    @ResponseBody
+    @GetMapping("/test")
+    public String test(){
+        System.out.println("test called");
+        return gg;
+
     }
 
     /**
