@@ -24,20 +24,8 @@ public class AuthController {
         this.JWTMCService = JWTMCService;
     }
 
-    @Value(ApplicationAttributeNames.HOSTURL_AUTH)
-    String gg;
-
-    @ResponseBody
-    @GetMapping("/test")
-    public String test(){
-        System.out.println("test called");
-        return gg;
-
-    }
-
     /**
      * Return Token on successful authentication
-     *
      * @return JWT token
      */
     @PostMapping("/signin")

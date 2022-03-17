@@ -58,6 +58,8 @@ public class ProjectController {
                     project.setRulesid(integerResponseEntity.getBody());
                     project.setAncestry("-");
 
+                    //Add the user as the root leader
+
                     //Pass it to Project Microservice and return the project we get
                     return projectMCService.createProject(project, token);
                 }
