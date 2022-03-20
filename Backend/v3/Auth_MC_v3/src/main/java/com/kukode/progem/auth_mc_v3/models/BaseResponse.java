@@ -1,6 +1,7 @@
-package com.kukode.progem.gateway_mc_v3.models;
+package com.kukode.progem.auth_mc_v3.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -8,6 +9,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 /**
  * BaseResponse is the base class that is going to be used as the response object
  * The Data variable is going to be of type generic which is going to be the data itself
