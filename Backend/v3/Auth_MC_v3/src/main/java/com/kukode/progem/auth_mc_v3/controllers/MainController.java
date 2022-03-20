@@ -3,6 +3,8 @@ package com.kukode.progem.auth_mc_v3.controllers;
 import com.kukode.progem.auth_mc_v3.models.BaseResponse;
 import com.kukode.progem.auth_mc_v3.models.requests.SignInUp;
 import com.kukode.progem.auth_mc_v3.services.AuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import reactor.core.publisher.Mono;
 public class MainController {
 
     final AuthService authService;
+    final Logger log = LoggerFactory.getLogger("MainController");
 
     public MainController(AuthService authService) {
         this.authService = authService;
@@ -32,8 +35,6 @@ public class MainController {
         //TODO: Add exceptions handling for expiration and other stuff
         return authService.signIn(body.getEmail(), body.getPassword())
                 .flatMap(s -> Mono.just(ResponseEntity.ok(new BaseResponse<String>(s, "generated token"))));
-
-
     }
 
     @PostMapping("/sign-up")

@@ -34,16 +34,16 @@ public class AuthService {
                         }
                 );
 
-        9
+
     }
 
     public Mono<String> signIn(String email, String password) {
+
         return userRepo.signIn(email, password)
                 .flatMap(user -> {
-                    if (user.getCred() == password && user.getEmail() == email)
-                        return Mono.just(jwtService.generateToken(email));
-                    return null;
-                });
+                    System.out.println(user.toString() + " SIGN IN QUERY FOUND A RESULT");
+                    return Mono.just(jwtService.generateToken(email));
+                }).switchIfEmpty(Mono.error(new Exception("Wrong credentials")));
     }
 
 }
