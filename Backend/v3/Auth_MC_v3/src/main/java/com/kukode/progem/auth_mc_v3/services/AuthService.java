@@ -34,7 +34,16 @@ public class AuthService {
                         }
                 );
 
+        9
     }
 
+    public Mono<String> signIn(String email, String password) {
+        return userRepo.signIn(email, password)
+                .flatMap(user -> {
+                    if (user.getCred() == password && user.getEmail() == email)
+                        return Mono.just(jwtService.generateToken(email));
+                    return null;
+                });
+    }
 
 }
