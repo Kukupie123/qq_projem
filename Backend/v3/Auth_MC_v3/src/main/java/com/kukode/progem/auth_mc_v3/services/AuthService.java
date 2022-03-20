@@ -18,15 +18,23 @@ public class AuthService {
     public Mono<Boolean> signUp(String email, String password) {
 
         //Check if user already exist
-
-        return userRepo.save(new User(true, email, password))
+        return userRepo.findById(email)
+                .defaultIfEmpty(new User(false, null, null))
                 .flatMap(user -> {
-                    if (user != null) return Mono.just(true);
-                    return Mono.just(false);
-                })
-                .onErrorReturn(null)
-                .defaultIfEmpty(false);
+
+                            if (user.getEmail() == null && user.getCred() == null) {
+                                //This object is from the "defaultIfEmpty" function
+                                //this implies that there is no previous object so we can execute save function
+                                return userRepo
+                                        .save(new User(true, email, password))
+                                        .flatMap(user1 -> Mono.just(true));
+                            }
+                            //Found a user in the database already
+                            return Mono.error(new Exception("User already exists"));
+                        }
+                );
 
     }
+
 
 }
