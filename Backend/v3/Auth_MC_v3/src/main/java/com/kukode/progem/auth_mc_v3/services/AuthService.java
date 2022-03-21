@@ -1,5 +1,6 @@
 package com.kukode.progem.auth_mc_v3.services;
 
+import com.kukode.progem.auth_mc_v3.models.BaseResponse;
 import com.kukode.progem.auth_mc_v3.models.entities.User;
 import com.kukode.progem.auth_mc_v3.repo.UserRepo;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,14 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public Mono<Boolean> signUp(String email, String password) {
+    /**
+     * Returns true or false with a message IF false stating the cause behind the false value
+     *
+     * @param email
+     * @param password
+     * @return
+     */
+    public Mono<BaseResponse<Boolean>> signUp(String email, String password) {
 
         //Check if user already exist
         return userRepo.findById(email)
@@ -27,10 +35,13 @@ public class AuthService {
                                 //this implies that there is no previous object so we can execute save function
                                 return userRepo
                                         .save(new User(true, email, password))
-                                        .flatMap(user1 -> Mono.just(true));
+                                        .flatMap(user1 -> {
+                                            BaseResponse<Boolean> resp = new BaseResponse<>(true, "");
+                                            return Mono.just(resp);
+                                        });
                             }
                             //Found a user in the database already
-                            return Mono.error(new Exception("User already exists"));
+                            return Mono.just(new BaseResponse<Boolean>(false, "User already exist"));
                         }
                 );
 
