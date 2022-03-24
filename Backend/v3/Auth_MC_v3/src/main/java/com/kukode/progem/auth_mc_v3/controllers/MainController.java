@@ -36,7 +36,10 @@ public class MainController {
         log.info("Sign-In Triggered with values {}", body.toString());
         return authService.signIn(body.getEmail(), body.getPassword())
                 .flatMap(s -> Mono.just(ResponseEntity.ok(new BaseResponse<String>(s, "generated token"))))
-                .onErrorReturn(ResponseEntity.internalServerError().body(new BaseResponse<String>(null, "Something went wrong")));
+                .onErrorResume(throwable -> {
+                    //When we get error we are going to return a response entity with the following message
+                    return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<String>(null, throwable.getMessage())));
+                });
     }
 
     @PostMapping("/sign-up")
