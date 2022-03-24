@@ -33,19 +33,20 @@ public class AuthController {
     @PostMapping("/sign-up")
     public Mono<ResponseEntity<BaseResponse<Boolean>>> signUp(@RequestBody SignInUp body) {
         //TODO: Custom Exception viewing
-        log.info("Sign-up request triggered with request "+body.toString());
+        log.info("Sign-up request triggered with request " + body.toString());
         return authService.signUp(body);
 
     }
 
     /**
      * Communicates with Auth MC to retrieve JWT token based on payload
+     *
      * @param body Email and Cred
      * @return JWT token on successful authentication
      */
     @PostMapping("/sign-in")
     public Mono<ResponseEntity<BaseResponse<String>>> signIn(@RequestBody SignInUp body) {
         log.info("Sign-in request triggered");
-        return null;
+        return authService.signIn(body);
     }
 }

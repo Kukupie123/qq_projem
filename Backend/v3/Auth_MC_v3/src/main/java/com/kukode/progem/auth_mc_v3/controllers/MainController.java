@@ -33,9 +33,10 @@ public class MainController {
     @PostMapping("/sign-in")
     public Mono<ResponseEntity<BaseResponse<String>>> signIn(@RequestBody SignInUp body) {
         //TODO: Add exceptions handling for expiration and other stuff
-        log.info();
+        log.info("Sign-In Triggered with values {}", body.toString());
         return authService.signIn(body.getEmail(), body.getPassword())
-                .flatMap(s -> Mono.just(ResponseEntity.ok(new BaseResponse<String>(s, "generated token"))));
+                .flatMap(s -> Mono.just(ResponseEntity.ok(new BaseResponse<String>(s, "generated token"))))
+                .onErrorReturn(ResponseEntity.internalServerError().body(new BaseResponse<String>(null, "Something went wrong")));
     }
 
     @PostMapping("/sign-up")

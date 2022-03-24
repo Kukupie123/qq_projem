@@ -40,7 +40,25 @@ public class AuthService {
                                     );
                         }
                 );
+    }
 
+    public Mono<ResponseEntity<BaseResponse<String>>> signIn(SignInUp body) {
+        String url = "http://" + authenticationHost + ":" + authenticationPort + "/api/v1/auth/sign-in";
+        log.info("SignIn on AuthMC with URL {} and body {}", url, body.toString());
+        //TODO: Change "/auth/sign-in" to a variable value that is going to be loaded from a file called authAPI.yml in git
+        WebClient client = WebClient.create(url);
+
+        return client.post()
+                .bodyValue(body)
+                .exchangeToMono(clientResponse -> {
+                            return clientResponse.bodyToMono(BaseResponse.class)
+                                    .map(baseResponse -> {
+                                                log.info("Response : " + baseResponse.toString() + ", Status : {}", clientResponse.statusCode());
+                                                return ResponseEntity.status(clientResponse.statusCode()).body(baseResponse);
+                                            }
+                                    );
+                        }
+                );
 
     }
 }
