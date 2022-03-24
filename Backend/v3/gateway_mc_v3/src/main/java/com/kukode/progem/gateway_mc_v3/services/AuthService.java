@@ -26,7 +26,7 @@ public class AuthService {
         String url = "http://" + authenticationHost + ":" + authenticationPort + "/api/v1/auth/sign-up";
         log.info("SignUp on Auth MC with URL {} and body  {}", url, body.toString());
         //TODO: Change "/auth/sign-in" hardcore to a value that is going to be loaded from property file called authAPI.yml stored in git
-        WebClient client = WebClient.create(url);
+        WebClient client = createClient(url);
         return client
                 .post()
                 .bodyValue(body)
@@ -34,7 +34,7 @@ public class AuthService {
                             //TODO: Figure out how to specify the generic type of BaseResponse.class
                             return resp.bodyToMono(BaseResponse.class)
                                     .map(authBaseResp -> {
-                                                log.info("Response : " + authBaseResp.toString() + ", Status : {}", resp.statusCode().toString());
+                                                log.info("Response : " + authBaseResp.toString() + ", Status : {}", resp.statusCode());
                                                 return ResponseEntity.status(resp.statusCode()).body(authBaseResp);
                                             }
                                     );
@@ -46,7 +46,7 @@ public class AuthService {
         String url = "http://" + authenticationHost + ":" + authenticationPort + "/api/v1/auth/sign-in";
         log.info("SignIn on AuthMC with URL {} and body {}", url, body.toString());
         //TODO: Change "/auth/sign-in" to a variable value that is going to be loaded from a file called authAPI.yml in git
-        WebClient client = WebClient.create(url);
+        WebClient client = createClient(url);
 
         return client.post()
                 .bodyValue(body)
@@ -60,5 +60,28 @@ public class AuthService {
                         }
                 );
 
+    }
+
+    public Mono<ResponseEntity<BaseResponse<String>>> getUserIDFromJWTToken(String token) {
+        String url = "http://" + authenticationHost + ":" + authenticationPort + "/api/v1/jwt/get-userid";
+        log.info("GetUserIDFromJWTToken on AuthMC with URL {} and token {}", url, token);
+
+        WebClient client = createClient(url);
+        return client.post()
+                .header("Authorization", "Bearer " + token)
+                .exchangeToMono(clientResponse -> {
+                            return clientResponse.bodyToMono(BaseResponse.class)
+                                    .map(
+                                            baseResponse -> {
+                                                log.info("Response : " + baseResponse.toString() + ", Status : {}", clientResponse.statusCode());
+                                                return ResponseEntity.status(clientResponse.statusCode()).body(baseResponse);
+                                            }
+                                    );
+                        }
+                );
+    }
+
+    private WebClient createClient(String url) {
+        return WebClient.create(url);
     }
 }

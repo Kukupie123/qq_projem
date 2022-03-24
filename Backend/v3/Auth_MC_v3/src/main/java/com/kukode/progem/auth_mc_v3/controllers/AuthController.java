@@ -18,12 +18,12 @@ import reactor.core.publisher.Mono;
 @RestController
 //TODO: Make these variables non-hardcoded
 @RequestMapping("/api/v1/auth")
-public class MainController {
+public class AuthController {
 
     final AuthService authService;
     final Logger log = LoggerFactory.getLogger("MainController");
 
-    public MainController(AuthService authService) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
 

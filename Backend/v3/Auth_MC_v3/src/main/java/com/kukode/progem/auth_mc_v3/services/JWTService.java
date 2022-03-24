@@ -1,6 +1,7 @@
 package com.kukode.progem.auth_mc_v3.services;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,16 @@ public class JWTService {
     final private String initiatedAt = "iat";
     final private String subject = "sub";
 
-    public String extractUserName(String token) {
+    public String extractUserName(String token) throws ExpiredJwtException {
+
         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
         var exp = claims.get(expiration);
         var iat = claims.get(initiatedAt);
         long iatDate = ((Number) iat).longValue();
 
         return (String) claims.get(subject);
+
+
     }
 
     public String generateToken(String email) {
