@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/v1/project")
+@RequestMapping("${gateway.project.base}")
 public class ProjectController {
     Logger log = LoggerFactory.getLogger("Project Controller");
     final AuthService authService;

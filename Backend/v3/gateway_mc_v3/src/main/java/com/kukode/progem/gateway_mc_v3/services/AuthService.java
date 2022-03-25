@@ -21,11 +21,21 @@ public class AuthService {
     @Value(MicroserviceAttributeNames.AUTH_PORT)
     String authenticationPort;
 
+    @Value("${auth.base}")
+    String authBase;
+    @Value("${auth.signup}")
+    String authSignUp;
+    @Value("${auth.signin}")
+    String authSignIn;
+
+    @Value("${jwt.base}")
+    String jwtBase;
+    @Value("${jwt.getuserid}")
+    String jwtGetUserID;
 
     public Mono<ResponseEntity<BaseResponse<Boolean>>> signUp(SignInUp body) {
-        String url = "http://" + authenticationHost + ":" + authenticationPort + "/api/v1/auth/sign-up";
+        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + authBase + authSignUp;
         log.info("SignUp on Auth MC with URL {} and body  {}", url, body.toString());
-        //TODO: Change "/auth/sign-in" hardcore to a value that is going to be loaded from property file called authAPI.yml stored in git
         WebClient client = createClient(url);
         return client
                 .post()
@@ -43,11 +53,9 @@ public class AuthService {
     }
 
     public Mono<ResponseEntity<BaseResponse<String>>> signIn(SignInUp body) {
-        String url = "http://" + authenticationHost + ":" + authenticationPort + "/api/v1/auth/sign-in";
+        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + authBase + authSignIn;
         log.info("SignIn on AuthMC with URL {} and body {}", url, body.toString());
-        //TODO: Change "/auth/sign-in" to a variable value that is going to be loaded from a file called authAPI.yml in git
         WebClient client = createClient(url);
-
         return client.post()
                 .bodyValue(body)
                 .exchangeToMono(clientResponse -> {
@@ -63,7 +71,7 @@ public class AuthService {
     }
 
     public Mono<ResponseEntity<BaseResponse<String>>> getUserIDFromJWTToken(String token) {
-        String url = "http://" + authenticationHost + ":" + authenticationPort + "/api/v1/jwt/get-userid";
+        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + jwtBase + jwtGetUserID;
         log.info("GetUserIDFromJWTToken on AuthMC with URL {} and token {}", url, token);
 
         WebClient client = createClient(url);

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("${gateway.auth.base}")
 public class AuthController {
 
     //**Declarations**
@@ -30,7 +30,7 @@ public class AuthController {
      * @param body Email and Cred
      * @return true or false as data, message as the reason behind it IF data is false
      */
-    @PostMapping("/sign-up")
+    @PostMapping("${gateway.auth.signup}")
     public Mono<ResponseEntity<BaseResponse<Boolean>>> signUp(@RequestBody SignInUp body) {
         //TODO: Custom Exception viewing
         log.info("Sign-up request triggered with request " + body.toString());
@@ -44,7 +44,7 @@ public class AuthController {
      * @param body Email and Cred
      * @return JWT token on successful authentication
      */
-    @PostMapping("/sign-in")
+    @PostMapping("${gateway.auth.signin}")
     public Mono<ResponseEntity<BaseResponse<String>>> signIn(@RequestBody SignInUp body) {
         log.info("Sign-in request triggered");
         return authService.signIn(body);

@@ -16,8 +16,7 @@ import reactor.core.publisher.Mono;
  * Main Controller is going to handle the basic requests such as signin, signup
  */
 @RestController
-//TODO: Make these variables non-hardcoded
-@RequestMapping("/api/v1/auth")
+@RequestMapping("${auth.base}")
 public class AuthController {
 
     final AuthService authService;
@@ -30,7 +29,7 @@ public class AuthController {
     /**
      * Verifies the credentials and returns a JWT token
      */
-    @PostMapping("/sign-in")
+    @PostMapping("${auth.signin}")
     public Mono<ResponseEntity<BaseResponse<String>>> signIn(@RequestBody SignInUp body) {
         //TODO: Add exceptions handling for expiration and other stuff
         log.info("Sign-In Triggered with values {}", body.toString());
@@ -42,7 +41,7 @@ public class AuthController {
                 });
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("${auth.signup}")
     public Mono<ResponseEntity<BaseResponse<Boolean>>> signUp(@RequestBody SignInUp body) {
         log.info(("Sign-up Triggered with values " + body.toString()));
         return authService.signUp(body.getEmail(), body.getPassword()).flatMap(resp ->
