@@ -1,4 +1,4 @@
-package com.kukode.progem.gateway_mc_v3.models.requests;
+package com.kukode.progem.project_mc.models.requests;
 
 
 import lombok.AllArgsConstructor;

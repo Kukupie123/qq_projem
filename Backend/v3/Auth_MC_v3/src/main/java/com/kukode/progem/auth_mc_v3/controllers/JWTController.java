@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("${jwt.base}")
+@RequestMapping("/"+"${jwt.base}")
 public class JWTController {
 
     final JWTService jwtService;
@@ -23,7 +23,7 @@ public class JWTController {
         this.jwtService = jwtService;
     }
 
-    @RequestMapping(value = "${jwt.getuserid}",method = RequestMethod.POST)
+    @RequestMapping(value = "/"+"${jwt.getuserid}",method = RequestMethod.POST)
     public Mono<ResponseEntity<BaseResponse<String>>> getUserID(@RequestHeader("Authorization") String token) {
         log.info("Get UserID called with token {}", token);
 

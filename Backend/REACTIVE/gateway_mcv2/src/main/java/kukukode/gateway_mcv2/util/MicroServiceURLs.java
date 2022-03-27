@@ -1,7 +1,5 @@
 package kukukode.gateway_mcv2.util;
 
-import java.security.spec.PSSParameterSpec;
-
 public final class MicroServiceURLs {
     private MicroServiceURLs() {
     }

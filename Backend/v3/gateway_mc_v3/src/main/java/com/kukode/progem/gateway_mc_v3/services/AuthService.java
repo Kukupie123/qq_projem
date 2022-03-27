@@ -2,7 +2,8 @@ package com.kukode.progem.gateway_mc_v3.services;
 
 import com.kukode.progem.gateway_mc_v3.models.BaseResponse;
 import com.kukode.progem.gateway_mc_v3.models.requests.SignInUp;
-import com.kukode.progem.gateway_mc_v3.utils.applicationproperties.MicroserviceAttributeNames;
+import com.kukode.progem.gateway_mc_v3.utils.applicationproperties.APIURLs;
+import com.kukode.progem.gateway_mc_v3.utils.applicationproperties.MCHostsNPorts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,25 +17,25 @@ public class AuthService {
 
     final Logger log = LoggerFactory.getLogger("Auth Service");
 
-    @Value(MicroserviceAttributeNames.AUTH_HOST)
+    @Value(MCHostsNPorts.AUTH_HOST)
     String authenticationHost;
-    @Value(MicroserviceAttributeNames.AUTH_PORT)
+    @Value(MCHostsNPorts.AUTH_PORT)
     String authenticationPort;
 
-    @Value("${auth.base}")
+    @Value(APIURLs.AUTH_BASE)
     String authBase;
-    @Value("${auth.signup}")
+    @Value(APIURLs.AUTH_SIGNUP)
     String authSignUp;
-    @Value("${auth.signin}")
+    @Value(APIURLs.AUTH_SIGNIN)
     String authSignIn;
 
-    @Value("${jwt.base}")
+    @Value(APIURLs.JWT_BASE)
     String jwtBase;
-    @Value("${jwt.getuserid}")
+    @Value(APIURLs.JWT_GETUSERID)
     String jwtGetUserID;
 
     public Mono<ResponseEntity<BaseResponse<Boolean>>> signUp(SignInUp body) {
-        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + authBase + authSignUp;
+        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + authBase + "/" + authSignUp;
         log.info("SignUp on Auth MC with URL {} and body  {}", url, body.toString());
         WebClient client = createClient(url);
         return client
@@ -53,7 +54,7 @@ public class AuthService {
     }
 
     public Mono<ResponseEntity<BaseResponse<String>>> signIn(SignInUp body) {
-        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + authBase + authSignIn;
+        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + authBase + "/" + authSignIn;
         log.info("SignIn on AuthMC with URL {} and body {}", url, body.toString());
         WebClient client = createClient(url);
         return client.post()
@@ -71,7 +72,7 @@ public class AuthService {
     }
 
     public Mono<ResponseEntity<BaseResponse<String>>> getUserIDFromJWTToken(String token) {
-        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + jwtBase + jwtGetUserID;
+        String url = "http://" + authenticationHost + ":" + authenticationPort + "/" + jwtBase + "/" + jwtGetUserID;
         log.info("GetUserIDFromJWTToken on AuthMC with URL {} and token {}", url, token);
 
         WebClient client = createClient(url);
