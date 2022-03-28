@@ -14,6 +14,19 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member {
+    public Member(boolean isNull) {
+        if (isNull) {
+            this.id = null;
+            this.members = null;
+        }
+    }
+
+    public boolean isValid() {
+        if (id == null || members == null) return false;
+        if (members.trim().isEmpty() || id.trim().isEmpty()) return false;
+        return true;
+    }
+
 
     @Id
     private String id; //ID format is projectID_membertype eg 213_leader

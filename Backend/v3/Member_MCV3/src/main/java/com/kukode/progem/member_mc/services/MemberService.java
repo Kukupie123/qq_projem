@@ -24,10 +24,11 @@ public class MemberService {
      */
     public Mono<Member> getMemberEntityFromDB(String id) {
         return memberRepo.findById(id)
-                .defaultIfEmpty(null)
+                .defaultIfEmpty(new Member(true))
                 .flatMap(member ->
                         {
-                            if (member == null) {
+                            if (!member.isValid()) {
+                                log.info("GetMemberEntityFromDB no Member found, creating a new one");
                                 //Create a new record in database
                                 Member newMember = new Member();
                                 newMember.setMembers("");
@@ -35,6 +36,7 @@ public class MemberService {
                                 return memberRepo.save(newMember);
 
                             } else {
+                                log.info("GetMemberEntityFromDB member found with values {}",member);
                                 //Record found in database so we can return it
                                 return Mono.just(member);
                             }
@@ -42,7 +44,7 @@ public class MemberService {
                 );
     }
 
-    public Mono<Member> updateMember(Member member){
+    public Mono<Member> updateMember(Member member) {
         return memberRepo.save(member);
     }
 }

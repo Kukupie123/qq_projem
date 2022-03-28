@@ -28,4 +28,15 @@ public class Project {
     boolean iscomplete;
     int rulesid;
     String userid;
+
+    public Project(boolean isNull) {
+        if (isNull) {
+            id = -1;
+        }
+    }
+
+    public boolean isValid() {
+        if (id < 0) return false;
+        return true;
+    }
 }

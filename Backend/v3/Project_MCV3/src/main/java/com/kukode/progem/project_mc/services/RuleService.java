@@ -35,7 +35,7 @@ public class RuleService {
         return client.post()
                 .bodyValue(rule)
                 .exchangeToMono(clientResponse -> {
-                            Mono<BaseResponse<Integer>> ruleIDMono = clientResponse.bodyToMono(BaseResponse.class);
+                            var ruleIDMono = clientResponse.bodyToMono(BaseResponse.class);
                             return ruleIDMono.flatMap(
                                     integerBaseResponse -> {
                                         //Check status code and return if NOT 200 ok
@@ -43,7 +43,7 @@ public class RuleService {
                                             return Mono.just(ResponseEntity.status(clientResponse.statusCode())
                                                     .body(new BaseResponse<Integer>(-1, integerBaseResponse.getMessage())));
 
-                                        int projectRuleID = integerBaseResponse.getData();
+                                        int projectRuleID =(int) integerBaseResponse.getData();
                                         return Mono.just(ResponseEntity.ok(new BaseResponse<Integer>(projectRuleID, integerBaseResponse.getMessage())));
                                     }
                             );

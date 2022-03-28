@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -28,7 +29,9 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public Mono<ResponseEntity<BaseResponse<Void>>> addRootLeader(@RequestBody AddLeaderToProject body) {
+    @RequestMapping(value = "/" + APIURLs.MEMBER_ADDLEADER, method = RequestMethod.POST)
+    public Mono<ResponseEntity<BaseResponse<Void>>> addLeader(@RequestBody AddLeaderToProject body) {
+        log.info("AddleaderToProject with body {}", body);
         /*
         Validations to perform:
         1. If Root project, requester and to-be leader has to be the same
@@ -39,12 +42,14 @@ public class MemberController {
 
         //Get project
         Mono<Project> projectMono = projectService.getProjectFromID(body.getProjectID());
-        return projectMono.defaultIfEmpty(null)
+        return projectMono.defaultIfEmpty(new Project(true))
                 .flatMap(project ->
                         {
-                            if (project == null)
+                            if (!project.isValid())
                                 return Mono.just(ResponseEntity.status(404).body(new BaseResponse<Void>(null, "Project not found in record")));
                             //Found project, we can proceed
+
+
                             //Check if project is root
                             if (
                                     project.getAncestry() == null ||
@@ -55,7 +60,8 @@ public class MemberController {
                                 if (!body.getRequesterID().equals(body.getToBeUserID()))
                                     return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Void>(null, "Requester and To-be leader has to be the same for Root project")));
 
-                                //requester and project are same
+                                //requester and project are same, we can proceed
+
                                 //check if memberMono row already exist for the project
                                 String memberID = body.getProjectID() + "_" + body.getToBeUserID();
                                 Mono<Member> memberMono = memberService.getMemberEntityFromDB(memberID);
@@ -72,7 +78,7 @@ public class MemberController {
                                 });
 
                             }
-                            //Not root project.
+                            //Not root project
                             return Mono.just(ResponseEntity.unprocessableEntity().body(new BaseResponse<Void>(null, "Adding leader to sub project is WIP")));
 
                         }
