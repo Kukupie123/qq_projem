@@ -72,7 +72,7 @@ public class ProjectController {
                         if (!response.getStatusCode().is2xxSuccessful())
                             return Mono.just(ResponseEntity
                                     .status(response.getStatusCode()
-                                    ).body(new BaseResponse<>(-1, response.getBody().getMessage())));
+                                    ).body(new BaseResponse<Project>(null, response.getBody().getMessage())));
 
                         //ruleID is ok so now we can create Project, add the user as the leader and return back the project
 
@@ -86,16 +86,19 @@ public class ProjectController {
                         project.setRulesid(ruleID.getData());
                         project.setAncestry("");
 
-                        var savedProjectMono = projectService.createProject(project);
+                        Mono<Project> savedProjectMono = projectService.createProject(project);
 
                         return savedProjectMono.flatMap(savedProject -> {
                             //Created project successfully Now we need to save the user as the leader
-                            var leaderMono = memberService.addLeader(savedProject.getId());
+                            Mono<ResponseEntity<BaseResponse<Void>>> leaderMono = memberService.addLeader(savedProject.getId());
+
+                            //We get Mono<ResponseEntity<BaseResponse<Project>>> from "leaderMono.map" lambda
                             return leaderMono.map(memberRes -> {
-                                if (!memberRes.getStatusCode().is2xxSuccessful())
-                                    return ResponseEntity.status(memberRes.getStatusCode()).body(new BaseResponse<Project>(null, memberRes.getBody().getMessage()));
-                                return ResponseEntity.ok(new BaseResponse<Project>(savedProject, "successfully created project, and added user as leader"));
-                            });
+                                        if (!memberRes.getStatusCode().is2xxSuccessful())
+                                            return ResponseEntity.status(memberRes.getStatusCode()).body(new BaseResponse<Project>(null, memberRes.getBody().getMessage()));
+                                        return ResponseEntity.ok().body(new BaseResponse<Project>(savedProject, "successfully created project, and added user as leader"));
+                                    }
+                            );
                         });
                     });
 
