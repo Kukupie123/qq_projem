@@ -1,4 +1,4 @@
-package com.kukode.progem.rule_mc.utils;
+package com.kukode.progem.member_mc.utils;
 
 public final class APIURLs {
     private APIURLs() {
