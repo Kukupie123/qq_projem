@@ -1,4 +1,4 @@
-package com.kukode.progem.gateway_mc_v3.utils.applicationproperties;
+package com.kukode.progem.project_mc.utils;
 
 public final class MCHostsNPorts {
     private MCHostsNPorts() {
