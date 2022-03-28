@@ -41,4 +41,8 @@ public class MemberService {
                         }
                 );
     }
+
+    public Mono<Member> updateMember(Member member){
+        return memberRepo.save(member);
+    }
 }
