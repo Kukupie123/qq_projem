@@ -32,6 +32,7 @@ public class ProjectRuleController {
         return ruleIDMono.flatMap(integer -> {
             if (integer < 0) {
                 //No rule exist so we need to create one
+                log.info("No existing rule found with similar preference, creating a new rule");
                 var ruleID = projectRuleService.createRule(rule);
                 return ruleID.flatMap(integer1 -> {
                     if (integer1 < 0)

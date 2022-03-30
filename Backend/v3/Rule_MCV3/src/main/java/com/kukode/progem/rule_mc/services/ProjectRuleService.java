@@ -40,13 +40,15 @@ public class ProjectRuleService {
 
         //Converts the mono to int using flatmap and returns it else -1
         return resultRule.flatMap(projectRuleEntity -> {
-           log.info("RULE FOUND ID " + projectRuleEntity.getId());
+            log.info("RULE FOUND ID " + projectRuleEntity.getId());
             return Mono.just(projectRuleEntity.getId());
         }).defaultIfEmpty(-1);
     }
 
     public Mono<Integer> createRule(ProjectRuleEntity rule) {
         ProjectRuleEntity newRule = new ProjectRuleEntity();
+
+        log.info("Creating new rule {}", rule);
 
         newRule.setVisibility(rule.getVisibility());
         newRule.setChild_visibilities_allowed(rule.getChild_visibilities_allowed());
