@@ -12,4 +12,7 @@ public final class MCHostsNPorts {
 
     public static final String PROJECTRULE_HOST = "${services.urls.projectrule}";
     public static final String PROJECTRULE_PORT = "${services.ports.projectrule}";
+
+    public static final String MEMBER_HOST = "${services.urls.member}";
+    public static final String MEMBER_PORT = "${services.ports.member}";
 }

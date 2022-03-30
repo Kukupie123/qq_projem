@@ -9,6 +9,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class Project {
     String title;
     String description;
     String ancestry;
-    Date timestamp;
+    Timestamp timestamp;
     boolean iscomplete;
     int rulesid;
     String userid;

@@ -1,0 +1,9 @@
+#AddLeader
+POST http://localhost:5000/api/v1/member/add-leader
+Content-Type: application/json
+
+{
+  "requesterID" : "test1",
+  "toBeUserID" : "test1",
+  "projectID" : 31
+}

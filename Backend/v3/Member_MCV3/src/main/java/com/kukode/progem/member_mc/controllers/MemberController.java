@@ -49,13 +49,8 @@ public class MemberController {
                                 return Mono.just(ResponseEntity.status(404).body(new BaseResponse<Void>(null, "Project not found in record")));
                             //Found project, we can proceed
 
-
                             //Check if project is root
-                            if (
-                                    project.getAncestry() == null ||
-                                            project.getAncestry().trim().isEmpty() ||
-                                            project.getAncestry().replace("-", "").trim().isEmpty()
-                            ) {
+                            if (project.getAncestry().split("-").length <= 0) {
                                 //Root project,Check if requester and to-be id is same
                                 if (!body.getRequesterID().equals(body.getToBeUserID()))
                                     return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Void>(null, "Requester and To-be leader has to be the same for Root project")));
@@ -63,19 +58,27 @@ public class MemberController {
                                 //requester and project are same, we can proceed
 
                                 //check if memberMono row already exist for the project
-                                String memberID = body.getProjectID() + "_" + body.getToBeUserID();
+                                String memberID = body.getProjectID() + "_leader";
                                 Mono<Member> memberMono = memberService.getMemberEntityFromDB(memberID);
 
                                 //Save the to-be to the memberMono entity and update it
-                                memberMono.flatMap(member -> {
-                                    if (member.getMembers().trim().isEmpty())
-                                        member.setMembers(body.getToBeUserID());
-                                    else member.setMembers(member.getMembers() + "-" + body.getToBeUserID());
-                                    return Mono.just(memberService.updateMember(member)
-                                            .flatMap(member1 -> Mono.just(ResponseEntity
-                                                    .ok(new BaseResponse<Void>(null, "added user as leader of " + memberID))
-                                            )));
-                                });
+                                return memberMono.flatMap(member -> {
+                                            //check if user is already part of the record
+                                            for (String s : member.getMembers().split("-")) {
+                                                if (s.trim().equalsIgnoreCase(body.getToBeUserID())) {
+                                                    return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<>(null, "User is already a leader of ProjectID: " + body.getProjectID())));
+                                                }
+                                            }
+                                            if (member.getMembers().trim().isEmpty())
+                                                member.setMembers(body.getToBeUserID());
+                                            else member.setMembers(member.getMembers() + "-" + body.getToBeUserID());
+                                            member.setNew(false);//To update it
+                                            return memberService.updateMember(member)
+                                                    .flatMap(member1 -> Mono.just(ResponseEntity
+                                                            .ok(new BaseResponse<Void>(null, "added user as leader of " + memberID))
+                                                    ));
+                                        }
+                                );
 
                             }
                             //Not root project

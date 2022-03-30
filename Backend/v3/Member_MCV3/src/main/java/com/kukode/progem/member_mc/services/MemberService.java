@@ -23,20 +23,21 @@ public class MemberService {
      * @return a member entity object.
      */
     public Mono<Member> getMemberEntityFromDB(String id) {
+        log.info("GETTING Member entity from db with ID {}",id);
         return memberRepo.findById(id)
                 .defaultIfEmpty(new Member(true))
                 .flatMap(member ->
                         {
                             if (!member.isValid()) {
-                                log.info("GetMemberEntityFromDB no Member found, creating a new one");
+                                log.info("no Member found, creating a new one");
                                 //Create a new record in database
-                                Member newMember = new Member();
+                                Member newMember = new Member(true, id, "");
                                 newMember.setMembers("");
                                 newMember.setId(id);
                                 return memberRepo.save(newMember);
 
                             } else {
-                                log.info("GetMemberEntityFromDB member found with values {}",member);
+                                log.info("GetMemberEntityFromDB member found with values {}", member);
                                 //Record found in database so we can return it
                                 return Mono.just(member);
                             }

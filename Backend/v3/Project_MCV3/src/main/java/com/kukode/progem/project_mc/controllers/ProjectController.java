@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Date;
 
 @RestController
@@ -75,16 +77,17 @@ public class ProjectController {
 
                         //ruleID is ok so now we can create Project, add the user as the leader and return back the project
 
+
                         //create project
                         //Create the project entity
                         Project project = new Project();
-                        project.setTimestamp(new Date(System.currentTimeMillis()));
+                        project.setTimestamp(Timestamp.from(Instant.now()));
                         project.setTitle(projectReq.getTitle());
                         project.setIscomplete(false);
                         project.setDescription(projectReq.getDesc());
                         project.setRulesid(ruleID.getData());
                         project.setAncestry("-");
-
+                        project.setUserid(projectReq.getUserID());
                         Mono<Project> savedProjectMono = projectService.createProject(project);
 
                         return savedProjectMono.flatMap(savedProject -> {
