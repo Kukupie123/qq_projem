@@ -1,1 +1,23 @@
-#Test requests
+#Sign in request
+
+POST http://localhost:1000/api/v1/auth/sign-in
+Authorization: Bearer
+Content-Type: application/json
+
+{
+  "email": "test1",
+  "password" : "test1"
+}
+###
+
+#Create project request
+POST http://localhost:1000/api/v1/project/
+Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTY0ODY0OTU4NSwiZXhwIjoxNjQ4NjUxMzg1fQ.CBl8h_2SCxlAyeFeWyHQkBlOYbm8DBAkrxn6uaLJ7j6e_BTacEMWiq9BiAdWkT7ZjYR0VE8RC8Uc0u40FPErhQ"
+Content-Type: application/json
+
+{
+  "title":"title baby",
+  "desc":"description goes here",
+  "visibility":"private"
+}
+

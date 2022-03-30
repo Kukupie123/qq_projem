@@ -53,17 +53,18 @@ public class ProjectController {
         //1.Verify token
         return authService.getUserIDFromJWTToken(token.replace("Bearer ", ""))
                 .flatMap(baseResponseResponseEntity -> {
-                    if (baseResponseResponseEntity.getStatusCode() != HttpStatus.OK) {
-                        //JWT token verification failed
-                        //So we return Response entity where project is null and message is the error message
-                        return Mono.just(ResponseEntity.status(baseResponseResponseEntity.getStatusCode())
-                                .body(new BaseResponse<Project>(null, baseResponseResponseEntity.getBody().getMessage())));
-                    }
-                    //Token is verified and we can proceed
-                    var userID = baseResponseResponseEntity.getBody().getData();
-                    projectRequest.setUserID(userID);
-                    return projectService.createProject(projectRequest);
-                });
+                            if (baseResponseResponseEntity.getStatusCode() != HttpStatus.OK) {
+                                log.info("JWT verification failed with message {}", baseResponseResponseEntity.getBody().getMessage());
+                                return Mono.just(ResponseEntity.status(baseResponseResponseEntity.getStatusCode())
+                                        .body(new BaseResponse<Project>(null, baseResponseResponseEntity.getBody().getMessage())));
+                            }
+                            //Token is verified and we can proceed
+                            var userID = baseResponseResponseEntity.getBody().getData();
+                            log.info("JWT verified, userID : {}", userID);
+                            projectRequest.setUserID(userID);
+                            return projectService.createProject(projectRequest);
+                        }
+                );
 
     }
 }

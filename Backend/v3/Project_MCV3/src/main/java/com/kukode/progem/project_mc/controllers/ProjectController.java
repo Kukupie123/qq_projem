@@ -6,6 +6,8 @@ import com.kukode.progem.project_mc.models.requests.CreateProject;
 import com.kukode.progem.project_mc.services.MemberService;
 import com.kukode.progem.project_mc.services.ProjectService;
 import com.kukode.progem.project_mc.services.RuleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/" + "${project.base}")
 public class ProjectController {
+    final Logger log = LoggerFactory.getLogger("Project Controller");
 
     final ProjectService projectService;
     final RuleService ruleService;
@@ -36,14 +39,10 @@ public class ProjectController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/")
     public Mono<ResponseEntity<BaseResponse<Project>>> createProject(@RequestBody CreateProject projectReq) {
+        log.info("Create project triggered with body {}", projectReq);
         //**Validating the payload**
-        if (
-                !(
-                        projectReq.getTitle().trim().isEmpty() ||
-                                projectReq.getVisibility().trim().isEmpty()
-
-                )
-        )
+        if (projectReq.getTitle().trim().isEmpty() ||
+                projectReq.getVisibility().trim().isEmpty())
             return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "Invalid payload")));
 
         /*
@@ -84,13 +83,13 @@ public class ProjectController {
                         project.setIscomplete(false);
                         project.setDescription(projectReq.getDesc());
                         project.setRulesid(ruleID.getData());
-                        project.setAncestry("");
+                        project.setAncestry("-");
 
                         Mono<Project> savedProjectMono = projectService.createProject(project);
 
                         return savedProjectMono.flatMap(savedProject -> {
                             //Created project successfully Now we need to save the user as the leader
-                            Mono<ResponseEntity<BaseResponse<Void>>> leaderMono = memberService.addLeader(savedProject.getId());
+                            Mono<ResponseEntity<BaseResponse<Void>>> leaderMono = memberService.addLeader(savedProject.getId(), projectReq.getUserID(), projectReq.getUserID());
 
                             //We get Mono<ResponseEntity<BaseResponse<Project>>> from "leaderMono.map" lambda
                             return leaderMono.map(memberRes -> {

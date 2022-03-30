@@ -29,7 +29,7 @@ public class ProjectService {
      * @return Project Entity after it has created the project
      */
     public Mono<ResponseEntity<BaseResponse<Project>>> createProject(CreateProject project) {
-        String url = "http://" + projectHost + ":" + projectHost + "/" + projectBase;
+        String url = "http://" + projectHost + ":" + projectPort + "/" + projectBase+"/";
         log.info("CreateProject called with payload {} and url {}", project, url);
         WebClient client = WebClient.create(url);
         return client.post()
