@@ -1,0 +1,11 @@
+POST http://localhost:3000/api/v1/
+Content-Type: application/json
+
+
+{
+"title": "Amazon Project",
+  "desc": "A project for making full stack amazon website",
+  "visibility": "public",
+  "ancestry" : "",
+  "userID" : "test1"
+}

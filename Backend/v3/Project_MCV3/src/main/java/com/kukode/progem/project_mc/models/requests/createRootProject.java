@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateProject {
+public class createRootProject {
     private String title; //Should not be null or empty
     private String desc; //Can be null
     private String visibility;//Should not be null or empty

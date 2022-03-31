@@ -2,7 +2,8 @@ package com.kukode.progem.project_mc.controllers;
 
 import com.kukode.progem.project_mc.models.BaseResponse;
 import com.kukode.progem.project_mc.models.entities.Project;
-import com.kukode.progem.project_mc.models.requests.CreateProject;
+import com.kukode.progem.project_mc.models.entities.ProjectRuleEntity;
+import com.kukode.progem.project_mc.models.requests.createRootProject;
 import com.kukode.progem.project_mc.services.MemberService;
 import com.kukode.progem.project_mc.services.ProjectService;
 import com.kukode.progem.project_mc.services.RuleService;
@@ -17,7 +18,6 @@ import reactor.core.publisher.Mono;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/" + "${project.base}")
@@ -40,7 +40,7 @@ public class ProjectController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/")
-    public Mono<ResponseEntity<BaseResponse<Project>>> createProject(@RequestBody CreateProject projectReq) {
+    public Mono<ResponseEntity<BaseResponse<Project>>> createRootProject(@RequestBody createRootProject projectReq) {
         log.info("Create project triggered with body {}", projectReq);
         //**Validating the payload**
         if (projectReq.getTitle().trim().isEmpty() ||
@@ -63,7 +63,12 @@ public class ProjectController {
                 return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "userID is not defined")));
 
             //Create Rule with Max privilege
-            var createdProjectRule = projectService.createRootProjectRule(projectReq.getVisibility());
+            ProjectRuleEntity createdProjectRule;
+            try {
+                createdProjectRule = projectService.createRootProjectRule(projectReq.getVisibility());
+            } catch (Exception e) {
+                return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, e.getMessage())));
+            }
             //Get the correct rule Id from Rule MC
             var ruleIDMono = ruleService.getSimilarRule(createdProjectRule);
 

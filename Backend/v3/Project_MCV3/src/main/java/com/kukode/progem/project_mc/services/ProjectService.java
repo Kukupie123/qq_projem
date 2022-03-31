@@ -3,12 +3,15 @@ package com.kukode.progem.project_mc.services;
 import com.kukode.progem.project_mc.models.entities.Project;
 import com.kukode.progem.project_mc.models.entities.ProjectRuleEntity;
 import com.kukode.progem.project_mc.repo.ProjectRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
 public class ProjectService {
     final ProjectRepo projectRepo;
+    Logger log = LoggerFactory.getLogger("Project Service");
 
     public ProjectService(ProjectRepo projectRepo) {
         this.projectRepo = projectRepo;
@@ -17,10 +20,15 @@ public class ProjectService {
     /**
      * Creates a ruleEntity with root privilege
      */
-    public ProjectRuleEntity createRootProjectRule(String visibility) {
-        if (visibility.trim().equalsIgnoreCase("private") == false) {
-            System.out.println("Visibility is invalid " + visibility);
-            return null;
+    public ProjectRuleEntity createRootProjectRule(String visibility) throws Exception {
+        log.info("CreateRootProjectRule called with visibility {}",visibility);
+
+        if (visibility.trim().equalsIgnoreCase("private") || visibility.trim().equalsIgnoreCase("public")) {
+
+        }
+        else {
+            log.info("Invalid visibility!");
+            throw new Exception("Visibility is not private nor public");
         }
         var rule = new ProjectRuleEntity();
         rule.setVisibility(visibility);
