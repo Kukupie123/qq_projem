@@ -29,16 +29,20 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+
+    /*
+    Retrieves the projectID based on the ProjectID in the payload.
+    Determines if it's a root project or not. If root project the requesterID has to be the userID of the project
+    If the project is not a root, we have to retrieve it's parent project and check if the requester is a leader and if the rule of parent project
+    allows creation of child project
+     */
+    /**
+     * @param body RequesterID : The userID of the requester, ProjectID : The projectID of the project to add leader to, ToBeLeaderID : The userID of the user who is going to be the leader
+     * @return 200 ok status code with no body
+     */
     @RequestMapping(value = "/" + APIURLs.MEMBER_ADDLEADER, method = RequestMethod.POST)
     public Mono<ResponseEntity<BaseResponse<Void>>> addLeader(@RequestBody AddLeaderToProject body) {
         log.info("AddleaderToProject with body {}", body);
-        /*
-        Validations to perform:
-        1. If Root project, requester and to-be leader has to be the same
-        2. If not root project, check if requester is a leader of parent project and if parent project rule allows adding leaders or if only root leader can add
-        3. If only root leader can add then check IF requester is the root leader
-        4. Optional : JWT token based to be 99% secure but maybe in future as I plan on making this Service private and can only be accessed internally
-         */
 
         //Get project
         Mono<Project> projectMono = projectService.getProjectFromID(body.getProjectID());
@@ -49,13 +53,13 @@ public class MemberController {
                                 return Mono.just(ResponseEntity.status(404).body(new BaseResponse<Void>(null, "Project not found in record")));
                             //Found project, we can proceed
 
-                            //Check if project is root
+                            //Check if project is root, The requesterID has to be same as userID of the project
                             if (project.getAncestry().split("-").length <= 0) {
-                                //Root project,Check if requester and to-be id is same
-                                if (!body.getRequesterID().equals(body.getToBeUserID()))
-                                    return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Void>(null, "Requester and To-be leader has to be the same for Root project")));
+                                //Root project,Check if requesterID from payload matches the userID of Project Entity we retrieved
+                                if (!body.getRequesterID().equalsIgnoreCase(project.getUserid()))
+                                    return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<Void>(null, "Requester and User who created the project DO NOT match.")));
 
-                                //requester and project are same, we can proceed
+                                //requester and userID of project are same, we can proceed
 
                                 //check if memberMono row already exist for the project
                                 String memberID = body.getProjectID() + "_leader";

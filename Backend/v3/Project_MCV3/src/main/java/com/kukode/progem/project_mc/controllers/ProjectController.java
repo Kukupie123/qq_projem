@@ -3,7 +3,7 @@ package com.kukode.progem.project_mc.controllers;
 import com.kukode.progem.project_mc.models.BaseResponse;
 import com.kukode.progem.project_mc.models.entities.Project;
 import com.kukode.progem.project_mc.models.entities.ProjectRuleEntity;
-import com.kukode.progem.project_mc.models.requests.createRootProject;
+import com.kukode.progem.project_mc.models.requests.CreateProject;
 import com.kukode.progem.project_mc.services.MemberService;
 import com.kukode.progem.project_mc.services.ProjectService;
 import com.kukode.progem.project_mc.services.RuleService;
@@ -39,28 +39,31 @@ public class ProjectController {
         return null;
     }
 
+    /*
+    Validation of the payload is accompanied with check if the project is a root project or a child project.
+    If root project the requesterID has to be the same with toBeLeaderID since it only makes sense for the creator of the project to be the leader itself.
+    If it's hard to grasp take this analogy as example : If you buy a car you expect yourself to be the owner of the car, likewise if you create a project
+    you expect yourself being the leader of the project.
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/")
-    public Mono<ResponseEntity<BaseResponse<Project>>> createRootProject(@RequestBody createRootProject projectReq) {
+    public Mono<ResponseEntity<BaseResponse<Project>>> createProject(@RequestBody CreateProject projectReq) {
         log.info("Create project triggered with body {}", projectReq);
         //**Validating the payload**
         if (projectReq.getTitle().trim().isEmpty() ||
                 projectReq.getVisibility().trim().isEmpty())
             return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "Invalid payload")));
 
-        /*
-        TODO:
-        1. Check if user is allowed to create project(Can create if user is root project leader OR leader of parent Project&Parent project has rule enabled for creating child)
-        2. Assign correct RuleID
-        3. If Root project, make userID the root leader
-         */
-
-        boolean isRootProject = projectReq.getAncestry() == null || projectReq.getAncestry().trim().isEmpty();
+        boolean isRootProject = projectReq.getAncestry() == null || projectReq.getAncestry().trim().isEmpty() || projectReq.getAncestry().split("-").length <= 0;
 
         if (isRootProject) {
-            //No need to check if user is allowed to create as it is the main project not a sub project
-            String userID = projectReq.getUserID();
-            if (userID == null || userID.trim().isEmpty())
-                return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "userID is not defined")));
+            //Check if to be leader AND requesterID is the same. They need to be the same to be able to proceed further
+            String requesterID = projectReq.getRequesterID();
+            String toBeLeaderID = projectReq.getTobeLeaderID();
+            if (requesterID == null || requesterID.trim().isEmpty() || requesterID.equalsIgnoreCase(toBeLeaderID) == false)
+                //Requester and ToBeLeader is not the same, return error
+                return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "requesterID is not defined or requesterID doesn't match tobeleaderID")));
+
+            //Requester and ToBeLeader are same and we can proceed
 
             //Create Rule with Max privilege
             ProjectRuleEntity createdProjectRule;
@@ -82,8 +85,6 @@ public class ProjectController {
 
                         //ruleID is ok so now we can create Project, add the user as the leader and return back the project
 
-
-                        //create project
                         //Create the project entity
                         Project project = new Project();
                         project.setTimestamp(Timestamp.from(Instant.now()));
@@ -92,12 +93,12 @@ public class ProjectController {
                         project.setDescription(projectReq.getDesc());
                         project.setRulesid(ruleID.getData());
                         project.setAncestry("-");
-                        project.setUserid(projectReq.getUserID());
+                        project.setUserid(projectReq.getRequesterID());
                         Mono<Project> savedProjectMono = projectService.createProject(project);
 
                         return savedProjectMono.flatMap(savedProject -> {
                             //Created project successfully Now we need to save the user as the leader
-                            Mono<ResponseEntity<BaseResponse<Void>>> leaderMono = memberService.addLeader(savedProject.getId(), projectReq.getUserID(), projectReq.getUserID());
+                            Mono<ResponseEntity<BaseResponse<Void>>> leaderMono = memberService.addLeader(savedProject.getId(), projectReq.getRequesterID(), projectReq.getTobeLeaderID());
 
                             //We get Mono<ResponseEntity<BaseResponse<Project>>> from "leaderMono.map" lambda
                             return leaderMono.map(memberRes -> {

@@ -23,7 +23,7 @@ public class MemberService {
      * @return a member entity object.
      */
     public Mono<Member> getMemberEntityFromDB(String id) {
-        log.info("GETTING Member entity from db with ID {}",id);
+        log.info("GETTING Member entity from db with ID {}", id);
         return memberRepo.findById(id)
                 .defaultIfEmpty(new Member(true))
                 .flatMap(member ->

@@ -24,31 +24,37 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-
+    /*
+    Extracts the requesterID from the JWT token. Then checks if the project is private or public.
+    If public we simply return it back. If private we check if the requester is part of the project and return it.
+    This functionality is going to be mainly done by project Microservice
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Mono<ResponseEntity<BaseResponse<Project>>> getProject(@RequestHeader("Authorization") String token, @PathVariable(value = "id") String projectID) {
         return Mono.just(ResponseEntity.ok(new BaseResponse<>(null, "WIP")));
     }
 
-
+    /*
+    Client will need to send title, visibility and toBeLeader as the mandatory field.
+    First step involves validating the payload
+    Then we extract the userID from the token and this is going to be the requesterID and forwarded to Project microservice along with the payload
+     */
+    /**
+     * @param projectRequest requesterID : will be extracted from the JWT token, tobeLeaderID : UserID of the user who is going to be the leader of the project
+     * @param token          JWT token from "Authorization" bearer token
+     * @return Project entity
+     */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Mono<ResponseEntity<BaseResponse<Project>>> createProject(@RequestBody CreateProject projectRequest, @RequestHeader("Authorization") String token) {
         log.info("Create Project triggered with body {} and token {}", projectRequest, token);
 
-
-        if (projectRequest.getTitle() == null || projectRequest.getVisibility() == null)
-            return Mono.just(ResponseEntity.internalServerError().build());
-        if (projectRequest.getTitle().isEmpty() || projectRequest.getVisibility().isEmpty())
-            return Mono.just(ResponseEntity.internalServerError().build());
-
-        /*
-        1. Verify if token is valid
-        2. If Valid Check Ancestry and decide if it is a root project OR a sub project
-        3. If it is a root project, Get the correct RuleID and create a project based on request body and userID from token
-        4. If it is not a root project, Check if user is the creator of the main project, if he is, he is allowed to do so
-        5. If user is not the creator of the main project, ancestry must not be null and will be used to get it's parent project
-        6. We will now check if parent is allowed to create child project and we will also check if user is a leader of the parent project
-         */
+        //Validate payload
+        if (projectRequest.getTitle() == null || projectRequest.getVisibility() == null || projectRequest.getTobeLeaderID() == null)
+            return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "Title and/or visibility and/or toBeLeaderID is null")));
+        if (projectRequest.getTitle().isEmpty() || projectRequest.getVisibility().isEmpty()
+                || projectRequest.getVisibility().equalsIgnoreCase("private") == false || projectRequest.getVisibility().equalsIgnoreCase("public") == false
+                || projectRequest.getTobeLeaderID().trim().isEmpty())
+            return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "Title and/or visibility(needs to be 'public' or 'private') and/or toBeLeaderID is invalid")));
 
         //1.Verify token
         return authService.getUserIDFromJWTToken(token.replace("Bearer ", ""))
@@ -61,7 +67,7 @@ public class ProjectController {
                             //Token is verified and we can proceed
                             var userID = baseResponseResponseEntity.getBody().getData();
                             log.info("JWT verified, userID : {}", userID);
-                            projectRequest.setUserID(userID);
+                            projectRequest.setRequesterID(userID);
                             return projectService.createProject(projectRequest);
                         }
                 );

@@ -10,11 +10,12 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class createRootProject {
+public class CreateProject {
     private String title; //Should not be null or empty
     private String desc; //Can be null
     private String visibility;//Should not be null or empty
     private String ancestry; //can be null
-    private String userID; // Will be null but will be modified internally to have a value
+    private String requesterID; // Will be null but will be modified internally to have a value
+    private String tobeLeaderID;// May or may not be null, this person will be the leader of the newly created project. DOESN'T APPLY TO ROOT PROJECT. Root project will need to have both requesterID and tobeLeaderID same
 
 }
