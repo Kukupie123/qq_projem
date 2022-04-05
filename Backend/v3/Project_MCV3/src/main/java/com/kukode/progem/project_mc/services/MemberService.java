@@ -15,13 +15,13 @@ import reactor.core.publisher.Mono;
 @Service
 public class MemberService {
     @Value(MCHostsNPorts.MEMBER_PORT)
-    String memberPost;
+   private String memberPost;
     @Value(MCHostsNPorts.MEMBER_HOST)
-    String memberHost;
+    private String memberHost;
     @Value(APIURLs.MEMBER_BASE)
-    String memberBase;
+    private String memberBase;
     @Value(APIURLs.MEMBER_ADDLEADER)
-    String memberAddLeader;
+    private String memberAddLeader;
 
     Logger log = LoggerFactory.getLogger("Member service");
 

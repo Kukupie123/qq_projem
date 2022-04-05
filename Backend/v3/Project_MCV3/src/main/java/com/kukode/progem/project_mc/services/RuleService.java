@@ -43,7 +43,7 @@ public class RuleService {
                                             return Mono.just(ResponseEntity.status(clientResponse.statusCode())
                                                     .body(new BaseResponse<Integer>(-1, integerBaseResponse.getMessage())));
 
-                                        int projectRuleID =(int) integerBaseResponse.getData();
+                                        int projectRuleID = (int) integerBaseResponse.getData();
                                         return Mono.just(ResponseEntity.ok(new BaseResponse<Integer>(projectRuleID, integerBaseResponse.getMessage())));
                                     }
                             );
@@ -52,4 +52,27 @@ public class RuleService {
 
     }
 
+    /**
+     * Returns the rule based on id passed as argument
+     *
+     * @param id the id of the rule
+     * @return rule entity
+     */
+    public Mono<ResponseEntity<BaseResponse<ProjectRuleEntity>>> getRule(int id) {
+        return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<ProjectRuleEntity>(null, "Work in progress, id passed :" + id)));
+    }
+
+    /**
+     * Makes sure that the childRule has same OR less privilege than parentRule.
+     * It is going to modify the child rule as needed if it has to be changed to have same privilege as parentRule in case it has more privilege
+     * than parent and returns it back as payload
+     *
+     * @param parentRule The parent rule
+     * @param childRule  The Project rule
+     * @return A new modified childRule with at least the same privilege as parentRule in case those attributes were previously more than that of parent rule
+     */
+    public Mono<ResponseEntity<BaseResponse<ProjectRuleEntity>>> validateRule(ProjectRuleEntity parentRule, ProjectRuleEntity childRule) {
+        return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<ProjectRuleEntity>(null, "Work in progress, childRule passed :" + childRule + "parentRule passed : " + parentRule)));
+
+    }
 }

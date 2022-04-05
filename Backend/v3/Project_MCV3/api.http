@@ -1,11 +1,24 @@
-POST http://localhost:3000/api/v1/
+POST http://localhost:3000/api/v1/project/
 Content-Type: application/json
 
 
 {
-"title": "Amazon Project",
+  "title": "Amazon Project",
   "desc": "A project for making full stack amazon website",
   "visibility": "public",
-  "ancestry" : "",
-  "userID" : "test1"
+  "ancestry": "",
+  "userID": "test1"
+}
+
+###
+
+POST http://localhost:3000/api/v1/project/
+Content-Type: application/json
+
+{
+  "title": "Amazon child",
+  "desc": "A child project of Amazon project",
+  "ancestry": "-1",
+  "visibility": "public",
+  "userID": "test1"
 }

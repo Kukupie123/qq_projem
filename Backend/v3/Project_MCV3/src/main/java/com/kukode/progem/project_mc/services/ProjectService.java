@@ -1,32 +1,39 @@
 package com.kukode.progem.project_mc.services;
 
+import com.kukode.progem.project_mc.models.BaseResponse;
 import com.kukode.progem.project_mc.models.entities.Project;
 import com.kukode.progem.project_mc.models.entities.ProjectRuleEntity;
 import com.kukode.progem.project_mc.repo.ProjectRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ProjectService {
     final ProjectRepo projectRepo;
+    final MemberService memberService;
     Logger log = LoggerFactory.getLogger("Project Service");
 
-    public ProjectService(ProjectRepo projectRepo) {
+    public ProjectService(ProjectRepo projectRepo, MemberService memberService) {
         this.projectRepo = projectRepo;
+        this.memberService = memberService;
     }
 
     /**
      * Creates a ruleEntity with root privilege
      */
     public ProjectRuleEntity createRootProjectRule(String visibility) throws Exception {
-        log.info("CreateRootProjectRule called with visibility {}",visibility);
+        log.info("CreateRootProjectRule called with visibility {}", visibility);
 
         if (visibility.trim().equalsIgnoreCase("private") || visibility.trim().equalsIgnoreCase("public")) {
 
-        }
-        else {
+        } else {
             log.info("Invalid visibility!");
             throw new Exception("Visibility is not private nor public");
         }
@@ -51,8 +58,79 @@ public class ProjectService {
         return rule;
     }
 
-    public Mono<Project> createProject(Project project) {
-        return projectRepo.save(project);
+    /**
+     * Creates the project and adds the leader
+     * @param project
+     * @return the created project
+     */
+    public Mono<ResponseEntity<BaseResponse<Project>>> createProject(Project project, String requesterID, String toBeLeaderID) {
+        var savedProjectMono = projectRepo.save(project);
+        return savedProjectMono.flatMap(savedProject -> {
+            //Created project successfully Now we need to save the user as the leader
+            Mono<ResponseEntity<BaseResponse<Void>>> leaderMono = memberService.addLeader(savedProject.getId(), requesterID, toBeLeaderID);
+
+            //We get Mono<ResponseEntity<BaseResponse<Project>>> from "leaderMono.map" lambda
+            return leaderMono.map(memberRes -> {
+                        if (!memberRes.getStatusCode().is2xxSuccessful())
+                            return ResponseEntity.status(memberRes.getStatusCode()).body(new BaseResponse<Project>(null, memberRes.getBody().getMessage()));
+                        return ResponseEntity.ok().body(new BaseResponse<Project>(savedProject, "successfully created project, and added user as leader"));
+                    }
+            );
+        });
+
+    }
+
+    public Mono<Project> getProject(int id) {
+        log.info("getProject called with id {}", id);
+        return projectRepo.findById(id)
+                .defaultIfEmpty(new Project(-1, "", "", "", null, false, -1, null));
+    }
+
+
+    /**
+     * Adds ancestry to base ancestry and returns it. FOR Root PROJECTS PASS parentProjectID as -1
+     *
+     * @param baseAncestry    The baseAncestry. For root projects this will be "-" or empty string
+     * @param parentProjectID The ID of the parentProject. For Root projects this will be -1
+     * @return a string with the new ancestry tree. Eg: ("1-4",6) will return 1-4-6
+     */
+    public String addAncestry(String baseAncestry, int parentProjectID) {
+        //split the ancestry into parts
+        String[] ancestriesRAW = baseAncestry.split("-");
+        List<String> ancestries = new ArrayList<String>(Arrays.asList(ancestriesRAW));
+
+        ancestries.removeIf(s -> s.isEmpty() || s.isBlank());
+
+        //Now we have refined ancestry tree for base
+        String ancestry = "";
+        for (int i = 0; i < ancestries.size(); i++) {
+            //Check if it is last index
+            if ((i + 1) == ancestries.size()) {
+                //last so we need to not add - at the end
+                if (parentProjectID >= 0)
+                    ancestry = ancestry + ancestries.get(i) + "-" + parentProjectID; //adding the parentProjectId as the parent
+                else {
+                    ancestry = ancestry + ancestries.get(i); //parentID is invalid meaning it has no parent i.e this is a root project and SHOULD NEVER REACH THIS
+                    log.error("THIS LOOP WAS NEVER MEANT TO BE REACHED FOR A ROOT PROJECT AS IT SHOULD NOT HAVE ANY PARENT");
+                }
+            } else {
+                //not last so we can add -
+                ancestry = ancestry + ancestries.get(i) + "-";
+            }
+        }
+
+        if (ancestry.isBlank() || ancestry.isEmpty()) {
+            if (parentProjectID < 0) {
+                //ancestry can not be null so root project will have '-' as it's ancestry
+                ancestry = "-";
+            } else {
+                ancestry = Integer.toString(parentProjectID);
+            }
+
+        }
+
+        log.info("Ancestry finalized with value {}", ancestry);
+        return ancestry;
 
     }
 }

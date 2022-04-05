@@ -71,6 +71,5 @@ public class ProjectController {
                             return projectService.createProject(projectRequest);
                         }
                 );
-
     }
 }
