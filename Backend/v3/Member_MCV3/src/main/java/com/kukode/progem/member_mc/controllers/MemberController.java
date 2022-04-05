@@ -31,10 +31,12 @@ public class MemberController {
 
 
     /*
-    Retrieves the projectID based on the ProjectID in the payload.
+    TODO://Retrieves the projectID based on the ProjectID in the payload.
     Determines if it's a root project or not. If root project the requesterID has to be the userID of the project
-    If the project is not a root, we have to retrieve it's parent project and check if the requester is a leader and if the rule of parent project
-    allows creation of child project
+    If the project is not a root. Get paren project rule and see if it is allowed to add members. If allowed then check if requester is leader.
+    If not leader check if requester is root project leader
+    If leader of parent or root and parent allows then add leader
+    else do not
      */
     /**
      * @param body RequesterID : The userID of the requester, ProjectID : The projectID of the project to add leader to, ToBeLeaderID : The userID of the user who is going to be the leader
