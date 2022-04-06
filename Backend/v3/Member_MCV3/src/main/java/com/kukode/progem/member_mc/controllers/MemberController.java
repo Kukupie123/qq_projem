@@ -38,6 +38,7 @@ public class MemberController {
     If leader of parent or root and parent allows then add leader
     else do not
      */
+
     /**
      * @param body RequesterID : The userID of the requester, ProjectID : The projectID of the project to add leader to, ToBeLeaderID : The userID of the user who is going to be the leader
      * @return 200 ok status code with no body
@@ -46,7 +47,7 @@ public class MemberController {
     public Mono<ResponseEntity<BaseResponse<Void>>> addLeader(@RequestBody AddLeaderToProject body) {
         log.info("AddleaderToProject with body {}", body);
 
-        //Get project
+        //1.Get project
         Mono<Project> projectMono = projectService.getProjectFromID(body.getProjectID());
         return projectMono.defaultIfEmpty(new Project(true))
                 .flatMap(project ->
@@ -55,15 +56,16 @@ public class MemberController {
                                 return Mono.just(ResponseEntity.status(404).body(new BaseResponse<Void>(null, "Project not found in record")));
                             //Found project, we can proceed
 
-                            //Check if project is root, The requesterID has to be same as userID of the project
+                            //2.Check if project is root, The requesterID has to be same as userID of the project
                             if (project.getAncestry().split("-").length <= 0) {
-                                //Root project,Check if requesterID from payload matches the userID of Project Entity we retrieved
+                                //Root project
+
+                                //Check if requesterID matches userID of project
                                 if (!body.getRequesterID().equalsIgnoreCase(project.getUserid()))
                                     return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<Void>(null, "Requester and User who created the project DO NOT match.")));
 
                                 //requester and userID of project are same, we can proceed
-
-                                //check if memberMono row already exist for the project
+                                //3.check if memberMono row already exist for the project
                                 String memberID = body.getProjectID() + "_leader";
                                 Mono<Member> memberMono = memberService.getMemberEntityFromDB(memberID);
 
@@ -88,7 +90,28 @@ public class MemberController {
 
                             }
                             //Not root project
-                            return Mono.just(ResponseEntity.unprocessableEntity().body(new BaseResponse<Void>(null, "Adding leader to sub project is WIP")));
+                            //2. Get parent project
+                            try {
+                                int parentProjectID = projectService.getParentBasedOnAncestry(project.getAncestry());
+
+                                //3. Get parent project
+                                var parentProjectMono = projectService.getProjectFromID(parentProjectID);
+                                parentProjectMono.flatMap(
+                                        parentProject -> {
+                                            if (!parentProject.isValid())
+                                                return Mono.just(ResponseEntity.status(404).body(new BaseResponse<Void>(null, "Parent Project not found!")));
+                                            //Parent project found
+
+                                            //4. Get the rule of the parent project
+                                            //5. Check if rule allows parent project to have children
+                                            //6. Check if requester is root user
+                                            //7. Check if requester is leader of parent project
+                                        }
+                                );
+                            } catch (Exception e) {
+                                return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<Void>(null, e.getMessage())));
+                            }
+
 
                         }
                 );

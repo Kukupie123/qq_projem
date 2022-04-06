@@ -20,9 +20,21 @@ public class ProjectService {
     public Mono<Project> getProjectFromID(int id) {
 
         return projectRepo.findById(id)
-                .flatMap(project -> {
-                    return Mono.just(project);
-                })
+                .flatMap(project -> Mono.just(project))
                 ;
+    }
+
+    /**
+     * Gets the parent from the ancestry
+     *
+     * @param ancestry the ancestry of the project
+     * @return projectID of the parent
+     */
+    public int getParentBasedOnAncestry(String ancestry) throws Exception {
+        if (ancestry.isEmpty()) throw new Exception("Ancestry is empty");
+        String[] parents = ancestry.split("-");
+        if (parents.length <= 0) throw new Exception("No parent found in ancestry");
+        return Integer.parseInt(parents[parents.length - 1]);
+
     }
 }
