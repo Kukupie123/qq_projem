@@ -2,6 +2,7 @@ package com.kukode.progem.project_mc.services;
 
 import com.kukode.progem.project_mc.models.BaseResponse;
 import com.kukode.progem.project_mc.models.entities.ProjectRuleEntity;
+import com.kukode.progem.project_mc.models.requests.ValidateRule;
 import com.kukode.progem.project_mc.utils.APIURLs;
 import com.kukode.progem.project_mc.utils.MCHostsNPorts;
 import org.slf4j.Logger;
@@ -26,6 +27,8 @@ public class RuleService {
     String projectRuleBase;
     @Value(APIURLs.PROJECTRULE_GETSIMILAR)
     String projectRuleGetSimilarRule;
+    @Value(APIURLs.PROJECTRULE_VALIDATERULE)
+    String projectRuleValidate;
 
 
     public Mono<ResponseEntity<BaseResponse<Integer>>> getSimilarRule(ProjectRuleEntity rule) {
@@ -59,7 +62,16 @@ public class RuleService {
      * @return rule entity
      */
     public Mono<ResponseEntity<BaseResponse<ProjectRuleEntity>>> getRule(int id) {
-        return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<ProjectRuleEntity>(null, "Work in progress, id passed :" + id)));
+        String url = "http://" + projectRuleHost + ":" + projectRulePort + "/" + projectRuleBase + "/" + id;
+        log.info("getting rule of id {} in url {}", id, url);
+        WebClient client = WebClient.create(url);
+        return client.get()
+                .exchangeToMono(resp -> resp.bodyToMono(BaseResponse.class)
+                        .flatMap(baseResponse -> Mono.just(ResponseEntity.status(resp.statusCode()).body(baseResponse)
+                                )
+                        )
+                );
+
     }
 
     /**
@@ -72,7 +84,18 @@ public class RuleService {
      * @return A new modified childRule with at least the same privilege as parentRule in case those attributes were previously more than that of parent rule
      */
     public Mono<ResponseEntity<BaseResponse<ProjectRuleEntity>>> validateRule(ProjectRuleEntity parentRule, ProjectRuleEntity childRule) {
-        return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<ProjectRuleEntity>(null, "Work in progress, childRule passed :" + childRule + "parentRule passed : " + parentRule)));
+        String url = "http://" + projectRuleHost + ":" + projectRulePort + "/" + projectRuleBase + "/" + projectRuleValidate;
+        log.info("validate rule called on {} with body {} and {}", url, parentRule, childRule);
+        ValidateRule body = new ValidateRule(parentRule, childRule);
+        WebClient client = WebClient.create(url);
+        return client.post()
+                .bodyValue(body)
+                .exchangeToMono(resp -> resp.bodyToMono(BaseResponse.class)
+                        .flatMap(baseResponse -> Mono.just(ResponseEntity.status(resp.statusCode()).body(baseResponse)
+                                )
+                        )
+                );
+
 
     }
 }

@@ -59,10 +59,12 @@ public class ProjectService {
     }
 
     /**
-     * Creates the project and adds the leader
+     * Create project and return it back
      *
-     * @param project
-     * @return the created project
+     * @param project      The Project entity to be created
+     * @param requesterID  The userID of the requester
+     * @param toBeLeaderID The userID of the user who is going to be added as the leader of the project
+     * @return Project Entity that has been created
      */
     public Mono<ResponseEntity<BaseResponse<Project>>> createProject(Project project, String requesterID, String toBeLeaderID) {
         var savedProjectMono = projectRepo.save(project);
@@ -91,16 +93,28 @@ public class ProjectService {
     /**
      * Adds ancestry to base ancestry and returns it. FOR Root PROJECTS PASS parentProjectID as -1
      *
-     * @param baseAncestry    The baseAncestry. For root projects this will be "-" or empty string
+     * @param parentsAncestry    The Ancestry for the parent. For root projects this will be "-" or empty string
      * @param parentProjectID The ID of the parentProject. For Root projects this will be -1
      * @return a string with the new ancestry tree. Eg: ("1-4",6) will return 1-4-6
      */
-    public String addAncestry(String baseAncestry, int parentProjectID) {
+    public String addAncestry(String parentsAncestry, int parentProjectID) throws Exception {
+        //1.Check if parentProjectID <0. If yes then it is a root project and we can directly return without any further checks
+        if (parentProjectID < 0) return "-";
+
+        //2.ParentProjectID is valid meaning it does have a parent
         //split the ancestry into parts
-        String[] ancestriesRAW = baseAncestry.split("-");
+        String[] ancestriesRAW = parentsAncestry.split("-");
         List<String> ancestries = new ArrayList<String>(Arrays.asList(ancestriesRAW));
 
         ancestries.removeIf(s -> s.isEmpty() || s.isBlank());
+
+        //Throw error if we already have a ancestry with parentID supplied
+        for (String s : ancestries) {
+            log.info("value of s while purging is {}", s);
+            if (s.equals(Integer.toString(parentProjectID))) {
+                throw new Exception("ProjectID already part of ancestry tree");
+            }
+        }
 
         //Now we have refined ancestry tree for base
         String ancestry = "";
@@ -120,22 +134,13 @@ public class ProjectService {
             }
         }
 
-        if (ancestry.isBlank() || ancestry.isEmpty()) {
-            if (parentProjectID < 0) {
-                //ancestry can not be null so root project will have '-' as it's ancestry
-                ancestry = "-";
-            } else {
-                ancestry = Integer.toString(parentProjectID);
-            }
-
+        if (ancestry.isEmpty()) {
+            //Base ancestry had no parent
+            ancestry = Integer.toString(parentProjectID);
         }
 
         log.info("Ancestry finalized with value {}", ancestry);
         return ancestry;
 
-    }
-
-    public String getParent(String ancestry) {
-        return "";
     }
 }

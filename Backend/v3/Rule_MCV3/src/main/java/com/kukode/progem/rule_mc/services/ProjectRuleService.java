@@ -70,7 +70,33 @@ public class ProjectRuleService {
 
         //Map = Holds the old mono
         //FlatMap = You have to create your own mono
-        return a.map(projectRuleEntity -> projectRuleEntity.getId())
+        return a.map(ProjectRuleEntity::getId)
                 .defaultIfEmpty(-1);
+    }
+
+    public Mono<ProjectRuleEntity> getRule(int id) {
+        var invalidProject = new ProjectRuleEntity();
+        invalidProject.setId(-1);
+        return projectRuleRepo.findById(id)
+                .defaultIfEmpty(invalidProject);
+    }
+
+    public ProjectRuleEntity validateRule(ProjectRuleEntity parentRule, ProjectRuleEntity childRule) throws Exception {
+        //1.Check all possibilities of error
+        if (!parentRule.isHave_children()) throw new Exception("Parent can not have child project");
+
+        //2.Realign the privileges IF needed
+        //Visibility
+        String[] visibilities = parentRule.getChild_visibilities_allowed().replace("*", "-").split("-");
+        boolean changed = false;
+        for (String s : visibilities) {
+            changed = s.equals(childRule.getVisibility());
+        }
+        if (!changed) {
+            childRule.setVisibility("private");
+        }
+        //Rest should be fine. We can make changes here if needed
+        return childRule;
+
     }
 }

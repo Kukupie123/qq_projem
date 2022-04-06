@@ -23,9 +23,9 @@ public class ProjectRuleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String visibility;
-    String child_visibilities_allowed;
+    String child_visibilities_allowed; //NEVER USED
     boolean have_children;
-    boolean have_children_needs_permission;
+    boolean have_children_needs_permission; //NEVER USED
     boolean can_leader_task_member;
     String task_member_visibilities_allowed;
     boolean task_member_needs_permission;
@@ -38,4 +38,20 @@ public class ProjectRuleEntity {
     String task_foreign_visibilities_allowed;
     boolean task_foreign_needs_permission;
     boolean task_foreign_complete_permission;
+
+    public boolean isValid(boolean ignoreID) {
+        //This is so bad fml
+        if (!ignoreID)
+            if (id < 0) return false;
+        if (!visibility.equals("public")) return false;
+        if (!visibility.equals("private")) return false;
+        if (!task_member_visibilities_allowed.equals("public")) return false;
+        if (!task_member_visibilities_allowed.equals("private")) return false;
+        if (!task_child_visibilities_allowed.equals("public")) return false;
+        if (!task_child_visibilities_allowed.equals("private")) return false;
+        if (!task_foreign_visibilities_allowed.equals("public")) return false;
+        if (!task_foreign_visibilities_allowed.equals("private")) return false;
+
+        return true;
+    }
 }

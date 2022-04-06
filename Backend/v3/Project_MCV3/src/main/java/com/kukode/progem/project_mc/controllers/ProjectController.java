@@ -98,7 +98,11 @@ public class ProjectController {
                                 project.setIscomplete(false);
                                 project.setDescription(projectReq.getDesc());
                                 project.setRulesid(ruleID.getData());
-                                project.setAncestry(projectService.addAncestry("", -1)); //-1 Signifies that it is a parent project with no parent
+                                try {
+                                    project.setAncestry(projectService.addAncestry("", -1)); //-1 Signifies that it is a parent project with no parent
+                                } catch (Exception e) {
+                                    return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, e.getMessage())));
+                                }
                                 project.setUserid(projectReq.getRequesterID());
                                 log.info("Created new project and sending it to projectService.createProject()  : {}", project);
                                 return projectService.createProject(project, projectReq.getRequesterID(), projectReq.getTobeLeaderID());
@@ -137,54 +141,64 @@ public class ProjectController {
 
                                                     //4. Check if rules allow creation of child project
                                                     ProjectRuleEntity parentProjectRule = projectRuleResponse.getBody().getData();
-                                                    if (parentProjectRule.isHave_children() == true) {
-                                                        //Allowed to have children
-                                                        if (parentProjectRule.isHave_children_needs_permission()) {
-                                                            //TODO: Permission needed from root leader i.e pending project request stuff
-                                                            return Mono.just(ResponseEntity.status(404).body(new BaseResponse<Project>(null, "Permission needed from root leader. WIP")));
-                                                        } else {
-                                                            //Allowed to create child project without root permission
+                                                    if (!parentProjectRule.isHave_children()) {
+                                                        //NOT ALLOWED TO HAVE CHILDREN
+                                                        return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<Project>(null, "No permission to create Sub project as defined by rule of parent project")));
+                                                    }
+                                                    //Allowed to have children
+                                                    if (parentProjectRule.isHave_children_needs_permission()) {
+                                                        //TODO: Permission needed from root leader i.e pending project request stuff
+                                                        //return Mono.just(ResponseEntity.status(404).body(new BaseResponse<Project>(null, "Permission needed from root leader. WIP")));
+                                                    }
+                                                    //Allowed to create child project without root permission
 
-                                                            //5. Validate the rules sent in payload and verify if it has same OR less privilege than parent rule.
-                                                            //In case child has more privilege than parent adjust it. This duty is of Rule Microservice
-                                                            if (projectReq.getProjectRule() == null)
-                                                                return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "Rule is null for the project we are trying to create")));
-                                                            ProjectRuleEntity childProjectRule = projectReq.getProjectRule();
-                                                            Mono<ResponseEntity<BaseResponse<ProjectRuleEntity>>> newChildRuleMono = ruleService.validateRule(parentProjectRule, childProjectRule);
+                                                    //5. Validate the rules sent in payload
+                                                    if (projectReq.getProjectRule() == null)
+                                                        return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, "Rule is null for the project you are trying to create")));
+                                                    //Project rule is valid
+                                                    ProjectRuleEntity childProjectRule = projectReq.getProjectRule();
+                                                    //6. Validate the rule using Rule MC which will return a rule which has max privilege as parent IN CASE child has more privilege than parent in some case
+                                                    Mono<ResponseEntity<BaseResponse<ProjectRuleEntity>>> newChildRuleMono = ruleService.validateRule(parentProjectRule, childProjectRule);
 
-                                                            return newChildRuleMono.flatMap(baseResponseResponseEntity -> {
-                                                                if (baseResponseResponseEntity.getStatusCode().is2xxSuccessful() == false)
+                                                    return newChildRuleMono.flatMap(baseResponseResponseEntity -> {
+                                                                if (!baseResponseResponseEntity.getStatusCode().is2xxSuccessful())
+                                                                    //We failed to get a good rule response back from the RuleMC
                                                                     return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<Project>(null, baseResponseResponseEntity.getBody().getMessage())));
+
                                                                 //got child rule successfully
                                                                 //6. Get similar rule for the project
                                                                 ProjectRuleEntity newChildProjectRule = baseResponseResponseEntity.getBody().getData();
                                                                 Mono<ResponseEntity<BaseResponse<Integer>>> projectRuleID = ruleService.getSimilarRule(newChildProjectRule);
                                                                 return projectRuleID.flatMap(projectIDResponse -> {
-                                                                    if (projectIDResponse.getStatusCode().is2xxSuccessful() == false)
-                                                                        return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<Project>(null, projectIDResponse.getBody().getMessage())));
+                                                                            if (!projectIDResponse.getStatusCode().is2xxSuccessful())
+                                                                                //Failed to get similar rule from RUleMC
+                                                                                return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<Project>(null, projectIDResponse.getBody().getMessage())));
 
-                                                                    int childRuleID = projectIDResponse.getBody().getData();
-                                                                    //Got ruleID successfully. Now we need to create a project entity and save it
-                                                                    //Create the project entity
-                                                                    Project childProject = new Project();
-                                                                    childProject.setTimestamp(Timestamp.from(Instant.now()));
-                                                                    childProject.setTitle(projectReq.getTitle());
-                                                                    childProject.setIscomplete(false);
-                                                                    childProject.setDescription(projectReq.getDesc());
-                                                                    childProject.setRulesid(childRuleID);
-                                                                    childProject.setAncestry(projectService.addAncestry(parentProject.getAncestry(), parentProject.getId()));
-                                                                    childProject.setUserid(projectReq.getRequesterID());
-                                                                    return projectService.createProject(childProject, projectReq.getRequesterID(), projectReq.getTobeLeaderID());
+                                                                            int childRuleID = projectIDResponse.getBody().getData();
+                                                                            //7.Got ruleID successfully. Now we need to create a project entity and save it
+                                                                            //Create the project entity
+                                                                            Project childProject = new Project();
+                                                                            childProject.setTimestamp(Timestamp.from(Instant.now()));
+                                                                            childProject.setTitle(projectReq.getTitle());
+                                                                            childProject.setIscomplete(false);
+                                                                            childProject.setDescription(projectReq.getDesc());
+                                                                            childProject.setRulesid(childRuleID);
+                                                                            try {
+                                                                                childProject.setAncestry(projectService.addAncestry(parentProject.getAncestry(), parentProject.getId()));
+                                                                            } catch (Exception e) {
+                                                                                return Mono.just(ResponseEntity.badRequest().body(new BaseResponse<Project>(null, e.getMessage())));
+                                                                            }
+                                                                            childProject.setUserid(projectReq.getRequesterID());
+                                                                            //Create project using the projectService which will also add the leader
+                                                                            return projectService.createProject(childProject, projectReq.getRequesterID(), projectReq.getTobeLeaderID());
 
-                                                                });
+                                                                        }
+                                                                );
 
-                                                            });
+                                                            }
+                                                    );
 
-                                                        }
-                                                    } else {
-                                                        //NOT ALLOWED TO HAVE CHILDREN
-                                                        return Mono.just(ResponseEntity.internalServerError().body(new BaseResponse<Project>(null, "No permission to create Sub project as defined by rule of parent project")));
-                                                    }
+
                                                 }
                                         );
                             }
