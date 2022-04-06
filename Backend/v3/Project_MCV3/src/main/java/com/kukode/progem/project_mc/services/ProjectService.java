@@ -60,6 +60,7 @@ public class ProjectService {
 
     /**
      * Creates the project and adds the leader
+     *
      * @param project
      * @return the created project
      */
@@ -132,5 +133,9 @@ public class ProjectService {
         log.info("Ancestry finalized with value {}", ancestry);
         return ancestry;
 
+    }
+
+    public String getParent(String ancestry) {
+        return "";
     }
 }
