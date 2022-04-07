@@ -45,6 +45,8 @@ public class MemberController {
      * @param body RequesterID : The userID of the requester, ProjectID : The projectID of the project to add leader to, ToBeLeaderID : The userID of the user who is going to be the leader
      * @return 200 ok status code with no body
      */
+
+    //TODO: Make function smaller by moving some stuff to service which are reasonable
     @RequestMapping(value = "/" + APIURLs.MEMBER_ADDLEADER, method = RequestMethod.POST)
     public Mono<ResponseEntity<BaseResponse<Void>>> addLeader(@RequestBody AddLeaderToProject body) {
         log.info("AddleaderToProject with body {}", body);
