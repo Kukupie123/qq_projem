@@ -1,4 +1,4 @@
-# PROJEM
+# PROJEM (DEVELOPMENT STOPPED BECAUSE OF SHIFTING TO OTHER PROJECTS.)
 
 Project Manager for Teams to make working with large project organised.
 
